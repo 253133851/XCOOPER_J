@@ -13,6 +13,7 @@ import com.pabula.fw.utility.RequestHelper;
 import com.pabula.fw.utility.VO;
 import com.xcooper.comment.busi.CommentBean;
 import com.xcooper.comment.vo.CommentVO;
+import com.xcooper.list.busi.ListBean;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,12 @@ public class CAjaxAddCommentCommand implements Command {
     @Override
     public String execute(RequestHelper helper, HttpServletRequest request) throws ServletException, BusinessRuleException, DataAccessException, SysException {
 
+
+        CommentBean bean = new CommentBean();
+
+        ListBean listBean = new ListBean();
+
+
         CommentVO comment = new CommentVO();
 
         //SeqNumHelper.getNewSeqNum("xxxx")���Ψһ������id  xxxx���ɱ���
@@ -36,21 +43,26 @@ public class CAjaxAddCommentCommand implements Command {
         //StrUtil.getNotNullIntValue("")���ַ���ת��int��  С��������� ���û�ҵ�isDone ��ֵ 0 �ɸ�
         comment.setIS_DONE(StrUtil.getNotNullIntValue(request.getParameter("isDone"), 0));
 
-        CommentBean bean = new CommentBean();
 
         try {
             bean.addComment(comment);
             return JsonResultUtil.instance().ok();
         } catch (DataAccessException e) {
-            return JsonResultUtil.instance().addMsg(e.getMessage()).addCode(JsonResultUtil.ERROR).addData("hahha").json();
+            return JsonResultUtil.instance().
+                    addMsg(e.getMessage())
+                    .addCode(JsonResultUtil.ERROR).json();
         }
 
-        //������ȷ
+//        返回error
 //        JsonResultUtil.instance().error();
-        //���ش���
+//        返回ok
 //        JsonResultUtil.instance().ok();
-        //�������comment  ���Ի����������� �����  list  map   int String ʲô����
-//        JsonResultUtil.instance().addData(comment).json();
+//        返回带参数的json
+//        JsonResultUtil.instance()
+//                .addMsg(e.getMessage()).
+//                addCode(JsonResultUtil.OK)
+//                .addData("xxx")
+//                .json();
     }
 
     @Override

@@ -50,6 +50,16 @@ public class CommentVO implements VO {
 	//END_DATETIME
 	Timestamp END_DATETIME;
 
+	String ss;
+
+	public String getSs() {
+		return ss;
+	}
+
+	public void setSs(String ss) {
+		this.ss = ss;
+	}
+
 	/**
 	 * @return 返回 COMMENT_ID COMMENT_ID
 	 */

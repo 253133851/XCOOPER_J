@@ -1,7 +1,6 @@
 package com.xcooper.comment.web.command;
 
 import com.pabula.common.util.JsonResultUtil;
-import com.pabula.common.util.StrUtil;
 import com.pabula.common.util.ValidateUtil;
 import com.pabula.fw.exception.BusinessRuleException;
 import com.pabula.fw.exception.DataAccessException;
@@ -14,28 +13,21 @@ import com.xcooper.comment.busi.CommentBean;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
 
 /**
  * Created by 26901 on 2016.4.16.
  */
-public class CAjaxDeleteCommentCommand implements Command {
+public class CAjaxQueryByIdCommentCommand implements Command {
 
     @Override
     public String execute(RequestHelper helper, HttpServletRequest request) throws ServletException, BusinessRuleException, DataAccessException, SysException {
 
-
-        int id = StrUtil.getNotNullIntValue(request.getParameter("id"), 0);
-
         CommentBean bean = new CommentBean();
 
-        try {
-            bean.delComment(id);
-            return JsonResultUtil.instance().ok();
-        } catch (DataAccessException e) {
-            return JsonResultUtil.instance().
-                    addMsg(e.getMessage())
-                    .addCode(JsonResultUtil.ERROR).json();
-        }
+        Collection list = bean.getCommentColl("select * from comment where" );
+
+        return JsonResultUtil.instance().addData(list).json();
 
     }
 

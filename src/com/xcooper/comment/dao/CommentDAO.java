@@ -33,28 +33,55 @@ public class CommentDAO {
     public void addComment(CommentVO VO) throws DataAccessException {
 
         try {
-            SqlHelper sh = new SqlHelper();
-
-            sh.setTable("COMMENT");
-
-            sh.setInsertForInt("COMMENT_ID", VO.getCOMMENT_ID());//COMMENT_ID
-            sh.setInsertForInt("SERVICE_ID", VO.getSERVICE_ID());//SERVICE_ID
-            sh.setInsertForInt("COMMENT_MEMBER_ID", VO.getCOMMENT_MEMBER_ID());//评论人
-            sh.setInsertForString("COMMENT_TITLE", VO.getCOMMENT_TITLE());//COMMENT_TITLE
-            sh.setInsertForString("COMMENT", VO.getCOMMENT());//评论内容
-            sh.setInsertForInt("TYPE", VO.getTYPE());//TYPE
-            sh.setInsertForString("TARGET_ID", VO.getTARGET_ID());//通知目标
-            sh.setInsertForInt("IS_SHOW", VO.getIS_SHOW());//访客是否可见
-            sh.setInsertForInt("IS_DONE", VO.getIS_DONE());//是否结束
-            sh.setInsertForInt("ORDER_NUM", VO.getORDER_NUM());//排序值
-            sh.setInsertForDatetime("ADD_DATETIME", DateUtil.format(VO.getADD_DATETIME(), "yyyy-MM-dd HH:mm:ss"), true);//ADD_DATETIME
-            sh.setInsertForDatetime("UPDATE_DATETIME", DateUtil.format(VO.getUPDATE_DATETIME(), "yyyy-MM-dd HH:mm:ss"), true);//UPDATE_DATETIME
-            sh.setInsertForDatetime("END_DATETIME", DateUtil.format(VO.getEND_DATETIME(), "yyyy-MM-dd HH:mm:ss"), true);//END_DATETIME
-
-            sh.insert(ResourceManager.getConnection(), "添加讨论");
+            if (!checkTile(VO.getCOMMENT_TITLE())) {
+                SqlHelper sh = new SqlHelper();
+                sh.setTable("COMMENT");
+                sh.setInsertForInt("COMMENT_ID", VO.getCOMMENT_ID());//COMMENT_ID
+                sh.setInsertForInt("SERVICE_ID", VO.getSERVICE_ID());//SERVICE_ID
+                sh.setInsertForInt("COMMENT_MEMBER_ID", VO.getCOMMENT_MEMBER_ID());//评论人
+                sh.setInsertForString("COMMENT_TITLE", VO.getCOMMENT_TITLE());//COMMENT_TITLE
+                sh.setInsertForString("COMMENT", VO.getCOMMENT());//评论内容
+                sh.setInsertForInt("TYPE", VO.getTYPE());//TYPE
+                sh.setInsertForString("TARGET_ID", VO.getTARGET_ID());//通知目标
+                sh.setInsertForInt("IS_SHOW", VO.getIS_SHOW());//访客是否可见
+                sh.setInsertForInt("IS_DONE", VO.getIS_DONE());//是否结束
+                sh.setInsertForInt("ORDER_NUM", VO.getORDER_NUM());//排序值
+                sh.setInsertForDatetime("ADD_DATETIME", DateUtil.format(VO.getADD_DATETIME(), "yyyy-MM-dd HH:mm:ss"), true);//ADD_DATETIME
+                sh.setInsertForDatetime("UPDATE_DATETIME", DateUtil.format(VO.getUPDATE_DATETIME(), "yyyy-MM-dd HH:mm:ss"), true);//UPDATE_DATETIME
+                sh.setInsertForDatetime("END_DATETIME", DateUtil.format(VO.getEND_DATETIME(), "yyyy-MM-dd HH:mm:ss"), true);//END_DATETIME
+                sh.insert(ResourceManager.getConnection(), "添加讨论");
+            }else{
+                throw new DataAccessException("title出错");
+            }
         } catch (SQLException e) {
             throw new DataAccessException("出错原因");
         }
+    }
+
+    public boolean checkTile(String title) {
+
+        try {
+            SqlHelper sh = new SqlHelper();
+
+            sh.setSelectColumn("*");
+
+            sh.setTable("COMMENT");
+
+            sh.setWhereForString("COMMENT_TITLE", " = ", title);//COMMENT_ID
+
+            String sql = sh.getSQL(sh.getSelectSQL());
+
+            System.out.println(sql);
+
+            Collection coll = getCommentColl(sql);
+            Iterator it = coll.iterator();
+            if (it.hasNext()) {
+                return true;
+            }
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     /**
@@ -191,7 +218,6 @@ public class CommentDAO {
                 VO.setADD_DATETIME(rs.getTimestamp("ADD_DATETIME"));    //ADD_DATETIME
                 VO.setUPDATE_DATETIME(rs.getTimestamp("UPDATE_DATETIME"));    //UPDATE_DATETIME
                 VO.setEND_DATETIME(rs.getTimestamp("END_DATETIME"));    //END_DATETIME
-
                 resultList.add(VO);
             }
         } catch (SQLException e) {
@@ -229,7 +255,31 @@ public class CommentDAO {
         if (it.hasNext()) {
             return (CommentVO) it.next();
         }
-
         return null;
     }
+
+    /**
+     * 根据ID取其VO
+     *
+     * @throws DataAccessException
+     * @author zdk 2016-03-28 19:33:56
+     */
+    public CommentVO getComment() throws DataAccessException {
+
+        SqlHelper sh = new SqlHelper();
+
+        sh.setSelectColumn("*");
+
+        sh.setTable("COMMENT");
+
+        String sql = sh.getSQL(sh.getSelectSQL());
+
+        Collection coll = getCommentColl(sql);
+        Iterator it = coll.iterator();
+        if (it.hasNext()) {
+            return (CommentVO) it.next();
+        }
+        return null;
+    }
+
 }

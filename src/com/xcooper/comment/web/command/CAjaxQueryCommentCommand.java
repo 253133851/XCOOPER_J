@@ -25,7 +25,9 @@ public class CAjaxQueryCommentCommand implements Command {
 
         CommentBean bean = new CommentBean();
 
-        Collection list = bean.getCommentColl("select * from comment");
+
+
+        Collection list = bean.getCommentColl("select * from comment" );
 
         return JsonResultUtil.instance().addData(list).json();
 
