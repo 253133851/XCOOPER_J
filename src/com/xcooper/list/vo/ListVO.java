@@ -14,8 +14,11 @@ public class ListVO implements VO {
 	//LIST_ID
 	int LIST_ID;
 
-	//SERVICE_ID
+	//SERVICE_ID 暂时不启用
 	int SERVICE_ID;
+
+	//PROJECT_ID
+	int PROJECT_ID;
 
 	//LIST_NAME
 	String LIST_NAME;
@@ -23,7 +26,7 @@ public class ListVO implements VO {
 	//ORDER_NUM
 	int ORDER_NUM;
 
-	//IS_DEL
+	//IS_DEL 暂时不启用
 	int IS_DEL;
 
 	//ADD_DATETIME
@@ -32,7 +35,7 @@ public class ListVO implements VO {
 	//UPDATE_DATETIME
 	Timestamp UPDATE_DATETIME;
 
-	//DEL_DATETIME
+	//DEL_DATETIME 暂时不启用
 	Timestamp DEL_DATETIME;
 
 	/**
@@ -62,6 +65,16 @@ public class ListVO implements VO {
 	public void setSERVICE_ID(int SERVICE_ID) {
 		this.SERVICE_ID = SERVICE_ID;
 	}
+
+
+	public int getPROJECT_ID() {
+		return PROJECT_ID;
+	}
+
+	public void setPROJECT_ID(int PROJECT_ID) {
+		this.PROJECT_ID = PROJECT_ID;
+	}
+
 
 	/**
 	 * @return 返回 LIST_NAME LIST_NAME
@@ -152,6 +165,7 @@ public class ListVO implements VO {
 		ret.append("toString : ");
 		ret.append(", LIST_ID='" + LIST_ID + "'");
 		ret.append(", SERVICE_ID='" + SERVICE_ID + "'");
+		ret.append(", PROJECT_ID='" + PROJECT_ID + "'");
 		ret.append(", LIST_NAME='" + LIST_NAME + "'");
 		ret.append(", ORDER_NUM='" + ORDER_NUM + "'");
 		ret.append(", IS_DEL='" + IS_DEL + "'");

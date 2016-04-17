@@ -1,5 +1,6 @@
 package com.xcooper.list.busi;
 
+import com.pabula.common.util.DateUtil;
 import com.pabula.fw.exception.DataAccessException;
 import com.xcooper.list.dao.ListDAO;
 import com.xcooper.list.vo.ListVO;
@@ -28,6 +29,8 @@ public class ListBean {
 	 * @author zdk 2016-03-28 19:33:03
 	 */
 	public void addList(ListVO VO)throws DataAccessException {
+		//设置添加时间
+		VO.setADD_DATETIME(DateUtil.getCurrTime());
 		dao.addList(VO);
 	}
 
@@ -38,6 +41,8 @@ public class ListBean {
 	 * @author zdk 2016-03-28 19:33:03
 	 */
 	public void modifyList(ListVO VO)throws DataAccessException {
+		//设置update_datetime
+		VO.setUPDATE_DATETIME(DateUtil.getCurrTime());
 		dao.modifyList(VO);
 	}
 

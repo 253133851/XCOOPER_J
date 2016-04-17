@@ -1,5 +1,6 @@
 package com.xcooper.comment.busi;
 
+import com.pabula.common.util.SeqNumHelper;
 import com.pabula.fw.exception.DataAccessException;
 import com.xcooper.comment.dao.CommentDAO;
 import com.xcooper.comment.vo.CommentVO;

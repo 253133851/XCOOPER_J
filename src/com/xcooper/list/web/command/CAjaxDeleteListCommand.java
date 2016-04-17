@@ -1,7 +1,6 @@
-package com.xcooper.comment.web.command;
+package com.xcooper.list.web.command;
 
 import com.pabula.common.util.JsonResultUtil;
-import com.pabula.common.util.SeqNumHelper;
 import com.pabula.common.util.StrUtil;
 import com.pabula.common.util.ValidateUtil;
 import com.pabula.fw.exception.BusinessRuleException;
@@ -11,43 +10,29 @@ import com.pabula.fw.exception.SysException;
 import com.pabula.fw.utility.Command;
 import com.pabula.fw.utility.RequestHelper;
 import com.pabula.fw.utility.VO;
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 import com.xcooper.comment.busi.CommentBean;
-import com.xcooper.comment.vo.CommentVO;
 import com.xcooper.list.busi.ListBean;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Timestamp;
 
 /**
- * Created by 26901 on 2016.4.16.
+ * Created by zdk on 2016.4.17.
  */
-public class CAjaxAddCommentCommand implements Command {
+public class CAjaxDeleteListCommand implements Command {
 
     @Override
     public String execute(RequestHelper helper, HttpServletRequest request) throws ServletException, BusinessRuleException, DataAccessException, SysException {
 
 
-        CommentBean bean = new CommentBean();
+        int id = StrUtil.getNotNullIntValue(request.getParameter("id"), 0);
 
-        ListBean listBean = new ListBean();
-
-
-        CommentVO comment = new CommentVO();
-
-        //SeqNumHelper.getNewSeqNum("xxxx")  向VO中插入"comment"表中可用的id
-        comment.setCOMMENT_ID(SeqNumHelper.getNewSeqNum("comment"));
-
-        //request.getParameter("xxx")  插入字符串
-        comment.setCOMMENT_TITLE(request.getParameter("title"));
-
-
-        //StrUtil.getNotNullIntValue("")  插入不为null的int
-        comment.setIS_DONE(StrUtil.getNotNullIntValue(request.getParameter("isDone"), 0));
-
+        ListBean bean = new ListBean();
 
         try {
-            bean.addComment(comment);
+            //删除该id的记录
+            bean.delList(id);
             return JsonResultUtil.instance().ok();
         } catch (DataAccessException e) {
             return JsonResultUtil.instance().
@@ -55,21 +40,10 @@ public class CAjaxAddCommentCommand implements Command {
                     .addCode(JsonResultUtil.ERROR).json();
         }
 
-//        返回error
-//        JsonResultUtil.instance().error();
-//        返回ok
-//        JsonResultUtil.instance().ok();
-//        返回带参数的json
-//        JsonResultUtil.instance()
-//                .addMsg(e.getMessage()).
-//                addCode(JsonResultUtil.OK)
-//                .addData("xxx")
-//                .json();
     }
 
     @Override
     public void validate(HttpServletRequest request, VO vo, ValidateUtil validate) throws RuleException {
-
 
     }
 }

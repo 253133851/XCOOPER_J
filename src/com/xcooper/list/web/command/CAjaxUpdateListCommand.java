@@ -1,4 +1,4 @@
-package com.xcooper.comment.web.command;
+package com.xcooper.list.web.command;
 
 import com.pabula.common.util.JsonResultUtil;
 import com.pabula.common.util.StrUtil;
@@ -11,29 +11,42 @@ import com.pabula.fw.utility.Command;
 import com.pabula.fw.utility.RequestHelper;
 import com.pabula.fw.utility.VO;
 import com.xcooper.comment.busi.CommentBean;
+import com.xcooper.comment.vo.CommentVO;
+import com.xcooper.list.busi.ListBean;
+import com.xcooper.list.vo.ListVO;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collection;
+import java.sql.Timestamp;
 
 /**
- * Created by 26901 on 2016.4.16.
+ * Created by zdk on 2016.4.17.
  */
-public class CAjaxQueryByIdCommentCommand implements Command {
+public class CAjaxUpdateListCommand implements Command {
 
     @Override
     public String execute(RequestHelper helper, HttpServletRequest request) throws ServletException, BusinessRuleException, DataAccessException, SysException {
 
-        int id = StrUtil.getNotNullIntValue(request.getParameter("id"),0);
+        ListBean bean = new ListBean();
 
-        CommentBean bean = new CommentBean();
-        if(id==0){
-            return JsonResultUtil.error();
-        }
-        Collection list = bean.getCommentColl("select * from comment where list_id = "+id );
+        int id = StrUtil.getNotNullIntValue(request.getParameter("id"), 0);
 
-        return JsonResultUtil.instance().addData(list).json();
+        ListVO list = bean.getListByID(id);
 
+        //修改 清单名 listName
+        list.setLIST_NAME(request.getParameter("listName"));
+
+        //修改 排序值 orderNum
+        list.setORDER_NUM(StrUtil.getNotNullIntValue(request.getParameter("orderNum"),0));
+
+
+//        list.setADD_DATETIME(Timestamp.valueOf(request.getParameter("截止时间")));
+
+        bean.modifyList(list);
+
+        //返回ok
+
+        return JsonResultUtil.instance().ok();
     }
 
     @Override

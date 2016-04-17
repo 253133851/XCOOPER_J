@@ -37,6 +37,7 @@ public class ListDAO {
 
 			sh.setInsertForInt("LIST_ID",VO.getLIST_ID());//LIST_ID
 			sh.setInsertForInt("SERVICE_ID",VO.getSERVICE_ID());//SERVICE_ID
+			sh.setInsertForInt("PROJECT_ID",VO.getPROJECT_ID());//PROJECT_ID
 			sh.setInsertForString("LIST_NAME",VO.getLIST_NAME());//LIST_NAME
 			sh.setInsertForInt("ORDER_NUM",VO.getORDER_NUM());//ORDER_NUM
 			sh.setInsertForInt("IS_DEL",VO.getIS_DEL());//IS_DEL
@@ -64,6 +65,7 @@ public class ListDAO {
 			sh.setTable("LIST");
 
 			sh.setColumnForInt("SERVICE_ID",VO.getSERVICE_ID());//SERVICE_ID
+			sh.setColumnForInt("PROJECT_ID",VO.getPROJECT_ID());//PROJECT_ID
 			sh.setColumnForString("LIST_NAME",VO.getLIST_NAME());//LIST_NAME
 			sh.setColumnForInt("ORDER_NUM",VO.getORDER_NUM());//ORDER_NUM
 			sh.setColumnForInt("IS_DEL",VO.getIS_DEL());//IS_DEL
@@ -164,6 +166,7 @@ public class ListDAO {
 
 				VO.setLIST_ID(rs.getInt("LIST_ID")); 	//LIST_ID
 				VO.setSERVICE_ID(rs.getInt("SERVICE_ID")); 	//SERVICE_ID
+				VO.setPROJECT_ID(rs.getInt("PROJECT_ID")); 	//PROJECT_ID
 				VO.setLIST_NAME(rs.getString("LIST_NAME")); 	//LIST_NAME
 				VO.setORDER_NUM(rs.getInt("ORDER_NUM")); 	//ORDER_NUM
 				VO.setIS_DEL(rs.getInt("IS_DEL")); 	//IS_DEL
