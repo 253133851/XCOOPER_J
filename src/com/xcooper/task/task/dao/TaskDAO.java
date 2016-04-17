@@ -158,7 +158,7 @@ public class TaskDAO {
 	 * @throws DataAccessException
 	 * @author zdk 2016-03-28 19:34:51
 	 */
-	public Collection getTaskColl(String sql)throws DataAccessException{
+	public Collection getTaskColl(String sql,boolean isFocus)throws DataAccessException{
 
 		Collection resultList = new ArrayList();
 		Connection conn=null;
@@ -185,6 +185,10 @@ public class TaskDAO {
 				VO.setADD_DATETIME(rs.getTimestamp("ADD_DATETIME")); 	//ADD_DATETIME
 				VO.setUPDATE_DATETIME(rs.getTimestamp("UPDATE_DATETIME")); 	//UPDATE_DATETIME
 				VO.setDEL_DATETIME(rs.getTimestamp("DEL_DATETIME")); 	//DEL_DATETIME
+
+				if(isFocus) {
+					VO.setIs_focus(rs.getInt("IS_FOCUS"));
+				}
 
 				resultList.add(VO);
 			}
@@ -217,7 +221,7 @@ public class TaskDAO {
 
 		String sql = sh.getSQL(sh.getSelectSQL());
 
-		Collection coll = getTaskColl(sql);
+		Collection coll = getTaskColl(sql,false);
 		Iterator it = coll.iterator();
 		if(it.hasNext()){
 			return (TaskVO)it.next();

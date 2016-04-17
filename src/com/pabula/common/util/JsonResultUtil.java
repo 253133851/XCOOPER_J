@@ -46,6 +46,11 @@ public class JsonResultUtil {
     return this;
   }
 
+  public JsonResultUtil addExtraData(Object[] data) {
+    this.extraData = data;
+    return this;
+  }
+
   /**
    * @param data
    * @return
@@ -99,6 +104,8 @@ public class JsonResultUtil {
 
   private Object data;
 
+  private Object[] extraData;
+
   public int getCode() {
     return code;
   }
@@ -109,6 +116,14 @@ public class JsonResultUtil {
 
   public Object getData() {
     return data;
+  }
+
+  public Object getExtraData() {
+    return extraData;
+  }
+
+  public void setExtraData(Object[] extraData) {
+    this.extraData = extraData;
   }
 
   public String json() {

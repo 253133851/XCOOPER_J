@@ -1,5 +1,6 @@
 package com.xcooper.task.task.busi;
 
+import com.pabula.common.util.DateUtil;
 import com.pabula.fw.exception.DataAccessException;
 import com.xcooper.task.task.dao.TaskDAO;
 import com.xcooper.task.task.vo.TaskVO;
@@ -28,6 +29,7 @@ public class TaskBean {
 	 * @author zdk 2016-03-28 19:34:51
 	 */
 	public void addTask(TaskVO VO)throws DataAccessException{
+		VO.setADD_DATETIME(DateUtil.getCurrTime());
 		dao.addTask(VO);
 	}
 
@@ -38,6 +40,7 @@ public class TaskBean {
 	 * @author zdk 2016-03-28 19:34:51
 	 */
 	public void modifyTask(TaskVO VO)throws DataAccessException{
+		VO.setUPDATE_DATETIME(DateUtil.getCurrTime());
 		dao.modifyTask(VO);
 	}
 
@@ -68,7 +71,17 @@ public class TaskBean {
 	 * @author zdk 2016-03-28 19:34:51
 	 */
 	public Collection getTaskColl(String sql)throws DataAccessException{
-		return dao.getTaskColl(sql);
+		return dao.getTaskColl(sql,false);
+	}
+
+	/**
+	 * 根据SQL获取任务集合,关联了member_task表之后
+	 * @param sql
+	 * @throws DataAccessException
+	 * @author zdk 2016-04-17
+	 */
+	public Collection getTaskCollWithLeftJoin(String sql)throws DataAccessException{
+		return dao.getTaskColl(sql,true);
 	}
 
 	/**

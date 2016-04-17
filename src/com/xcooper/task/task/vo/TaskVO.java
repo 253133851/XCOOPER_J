@@ -50,6 +50,16 @@ public class TaskVO implements VO {
 	//DEL_DATETIME
 	Timestamp DEL_DATETIME;
 
+	int is_focus;
+
+	public int getIs_focus() {
+		return is_focus;
+	}
+
+	public void setIs_focus(int is_focus) {
+		this.is_focus = is_focus;
+	}
+
 	/**
 	 * @return 返回 TASK_ID TASK_ID
 	 */
