@@ -1,4 +1,4 @@
-package com.xcooper.list.web.command;
+package com.xcooper.task.taskcheckitem.web.command;
 
 import com.pabula.common.util.JsonResultUtil;
 import com.pabula.common.util.SeqNumHelper;
@@ -11,40 +11,39 @@ import com.pabula.fw.exception.SysException;
 import com.pabula.fw.utility.Command;
 import com.pabula.fw.utility.RequestHelper;
 import com.pabula.fw.utility.VO;
-import com.xcooper.list.busi.ListBean;
-import com.xcooper.list.vo.ListVO;
+import com.xcooper.task.taskcheckitem.busi.TaskCheckItemBean;
+import com.xcooper.task.taskcheckitem.vo.TaskCheckItemVO;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by zdk on 2016.4.17.
  */
-public class CAjaxAddListCommand implements Command {
+public class CAjaxAddTaskCheckItemCommand implements Command {
 
     @Override
     public String execute(RequestHelper helper, HttpServletRequest request) throws ServletException, BusinessRuleException, DataAccessException, SysException {
 
 
-        ListBean listbean = new ListBean();
+        TaskCheckItemBean taskCheckItemBean = new TaskCheckItemBean();
 
-        ListVO list = new ListVO();
+        TaskCheckItemVO taskCheckItemVO = new TaskCheckItemVO();
 
         //SeqNumHelper.getNewSeqNum("xxxx") 像VO对象中插入可用ID
-        list.setLIST_ID(SeqNumHelper.getNewSeqNum("list"));
-        //list.setLIST_ID(StrUtil.getNotNullIntValue(request.getParameter("listId"),0));
+        //插入id
+        taskCheckItemVO.setID(SeqNumHelper.getNewSeqNum("task_check_item"));
+        //taskCheckItemVO.setID(StrUtil.getNotNullIntValue(request.getParameter("id"), 0));
 
-        //清单名listName
-        list.setLIST_NAME(request.getParameter("listName"));
+        //检查项名itemName
+        taskCheckItemVO.setITEM_NAME(request.getParameter("itemName"));
 
-        //项目id projectId
-        list.setPROJECT_ID(projectId);
-
-        //排序号 orderNum 默认设置为0
-        list.setORDER_NUM(StrUtil.getNotNullIntValue(request.getParameter("orderNum"),0));
+        //任务id taskId
+        taskCheckItemVO.setTASK_ID(StrUtil.getNotNullIntValue(request.getParameter("taskId"), 0));
 
 
         try {
-            listbean.addList(list);
+            taskCheckItemBean.addTaskCheckItem(taskCheckItemVO);
             return JsonResultUtil.instance().ok();
         } catch (DataAccessException e) {
             return JsonResultUtil.instance().
@@ -64,14 +63,8 @@ public class CAjaxAddListCommand implements Command {
 //                .json();
     }
 
-    //项目id
-    int projectId;
 
     @Override
     public void validate(HttpServletRequest request, VO vo, ValidateUtil validate) throws RuleException {
-        projectId = StrUtil.getNotNullIntValue(request.getParameter("projectId"),0);
-        if(projectId==0){
-            validate.addError("项目id错误");
-        }
     }
 }

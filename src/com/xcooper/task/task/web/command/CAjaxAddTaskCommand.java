@@ -1,6 +1,7 @@
 package com.xcooper.task.task.web.command;
 
 import com.pabula.common.util.JsonResultUtil;
+import com.pabula.common.util.SeqNumHelper;
 import com.pabula.common.util.StrUtil;
 import com.pabula.common.util.ValidateUtil;
 import com.pabula.fw.exception.BusinessRuleException;
@@ -30,8 +31,8 @@ public class CAjaxAddTaskCommand implements Command {
 
         TaskVO taskVO = new TaskVO();
 
-        //SeqNumHelper.getNewSeqNum("xxxx") 像VO对象中插入可用ID
-        //task.setTASK_ID(SeqNumHelper.getNewSeqNum("task"));
+        //SeqNumHelper.getNewSeqNum("xxxx") 向VO对象中插入"xxxx"表中可用ID
+        taskVO.setTASK_ID(SeqNumHelper.getNewSeqNum("task"));
 
         taskVO.setTASK_ID(StrUtil.getNotNullIntValue(request.getParameter("taskId"), 0));
 

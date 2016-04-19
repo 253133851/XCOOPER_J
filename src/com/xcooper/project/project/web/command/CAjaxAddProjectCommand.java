@@ -1,4 +1,4 @@
-package com.xcooper.list.web.command;
+package com.xcooper.project.project.web.command;
 
 import com.pabula.common.util.JsonResultUtil;
 import com.pabula.common.util.SeqNumHelper;
@@ -11,40 +11,49 @@ import com.pabula.fw.exception.SysException;
 import com.pabula.fw.utility.Command;
 import com.pabula.fw.utility.RequestHelper;
 import com.pabula.fw.utility.VO;
-import com.xcooper.list.busi.ListBean;
-import com.xcooper.list.vo.ListVO;
+import com.xcooper.project.project.busi.ProjectBean;
+import com.xcooper.project.project.vo.ProjectVO;
+import com.xcooper.task.task.busi.TaskBean;
+import com.xcooper.task.task.vo.TaskVO;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
 
 /**
  * Created by zdk on 2016.4.17.
  */
-public class CAjaxAddListCommand implements Command {
+public class CAjaxAddProjectCommand implements Command {
 
     @Override
     public String execute(RequestHelper helper, HttpServletRequest request) throws ServletException, BusinessRuleException, DataAccessException, SysException {
 
 
-        ListBean listbean = new ListBean();
+        ProjectBean projectBean = new ProjectBean();
 
-        ListVO list = new ListVO();
+        ProjectVO projectVO = new ProjectVO();
 
         //SeqNumHelper.getNewSeqNum("xxxx") 像VO对象中插入可用ID
-        list.setLIST_ID(SeqNumHelper.getNewSeqNum("list"));
-        //list.setLIST_ID(StrUtil.getNotNullIntValue(request.getParameter("listId"),0));
+        projectVO.setPROJECT_ID(SeqNumHelper.getNewSeqNum("project"));
 
-        //清单名listName
-        list.setLIST_NAME(request.getParameter("listName"));
+        //添加项目名 projectName
+        projectVO.setPROJECT_NAME(request.getParameter("projectName"));
 
-        //项目id projectId
-        list.setPROJECT_ID(projectId);
+        //添加项目描述 projectInfo
+        projectVO.setPROJECT_INFO(request.getParameter("projectInfo"));
 
-        //排序号 orderNum 默认设置为0
-        list.setORDER_NUM(StrUtil.getNotNullIntValue(request.getParameter("orderNum"),0));
+        //添加类型 type
+        projectVO.setTYPE(StrUtil.getNotNullIntValue(request.getParameter("type"),0));
+
+        //添加是否隐藏敏感 isHide
+        projectVO.setIS_HIDE(StrUtil.getNotNullIntValue(request.getParameter("isHide"),-1));
+
+        //设置是否只读 isReadOnly
+        projectVO.setIS_READ_ONLY(StrUtil.getNotNullIntValue(request.getParameter("isReadOnly"),-1));
 
 
         try {
-            listbean.addList(list);
+            projectBean.addProject(projectVO);
             return JsonResultUtil.instance().ok();
         } catch (DataAccessException e) {
             return JsonResultUtil.instance().
@@ -64,14 +73,9 @@ public class CAjaxAddListCommand implements Command {
 //                .json();
     }
 
-    //项目id
-    int projectId;
 
     @Override
     public void validate(HttpServletRequest request, VO vo, ValidateUtil validate) throws RuleException {
-        projectId = StrUtil.getNotNullIntValue(request.getParameter("projectId"),0);
-        if(projectId==0){
-            validate.addError("项目id错误");
-        }
+
     }
 }

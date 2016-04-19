@@ -3,6 +3,7 @@
  */
 package com.pabula.common.util;
 
+import com.xcooper.ENV;
 import org.logicalcobwebs.proxool.ProxoolDriver;
 
 import java.sql.*;
@@ -34,7 +35,7 @@ public class ResourceManager {
       String driverClass = "com.mysql.jdbc.Driver";
       //数据库连接地址
       String driverUrl =
-          "jdbc:mysql://192.168.99.182:3306/xcooper?useUnicode=true&characterEncoding=utf8";
+          "jdbc:mysql://"+ ENV.SQL+":3306/xcooper?useUnicode=true&characterEncoding=utf8";
       //            String driverUrl = "jdbc:mysql://huanhuanla.mysql.rds.aliyuncs.com:3306/huanhuanla_v1?useUnicode=true&characterEncoding=gbk";
       String url = "proxool." + alias + ":" + driverClass + ":" + driverUrl;
       ProxoolDriver proxoolDriver = new ProxoolDriver();
