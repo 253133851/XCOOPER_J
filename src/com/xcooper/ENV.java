@@ -9,9 +9,9 @@ public class ENV {
     public static boolean IS_TEST = true;//
 
     // 公司IP
-    final public static String SQL = "192.168.2.200";
+//    final public static String SQL = "192.168.2.200";
     //  家里的IP
-//  final public static String SQL = "192.168.99.182";
+  final public static String SQL = "192.168.99.182";
 
 
     //ssss

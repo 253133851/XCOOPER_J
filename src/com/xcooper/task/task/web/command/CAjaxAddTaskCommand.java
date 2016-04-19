@@ -34,8 +34,6 @@ public class CAjaxAddTaskCommand implements Command {
         //SeqNumHelper.getNewSeqNum("xxxx") 向VO对象中插入"xxxx"表中可用ID
         taskVO.setTASK_ID(SeqNumHelper.getNewSeqNum("task"));
 
-        taskVO.setTASK_ID(StrUtil.getNotNullIntValue(request.getParameter("taskId"), 0));
-
         taskVO.setLIST_ID(StrUtil.getNotNullIntValue(request.getParameter("listId"), 0));
 
         taskVO.setPROJECT_ID(StrUtil.getNotNullIntValue(request.getParameter("projectId"), 0));
