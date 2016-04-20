@@ -1,5 +1,6 @@
 package com.xcooper.sys.user.user.busi;
 
+import com.pabula.common.util.DateUtil;
 import com.pabula.fw.exception.DataAccessException;
 import com.xcooper.sys.user.user.dao.UserDAO;
 import com.xcooper.sys.user.user.vo.UserVO;
@@ -28,6 +29,8 @@ public class UserBean {
 	 * @author zdk 2016-03-28 19:20:05
 	 */
 	public void addUser(UserVO VO)throws DataAccessException {
+		//设置注册时间
+		VO.setREG_DATETIME(DateUtil.getCurrTime());
 		dao.addUser(VO);
 	}
 

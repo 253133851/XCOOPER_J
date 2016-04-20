@@ -13,6 +13,7 @@ import com.pabula.fw.utility.RequestHelper;
 import com.pabula.fw.utility.VO;
 import com.xcooper.list.busi.ListBean;
 import com.xcooper.list.vo.ListVO;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
@@ -40,7 +41,7 @@ public class CAjaxAddListCommand implements Command {
         list.setPROJECT_ID(projectId);
 
         //排序号 orderNum 默认设置为0
-        list.setORDER_NUM(StrUtil.getNotNullIntValue(request.getParameter("orderNum"),0));
+        list.setORDER_NUM(StrUtil.getNotNullIntValue(request.getParameter("orderNum"), 0));
 
 
         try {
@@ -69,8 +70,8 @@ public class CAjaxAddListCommand implements Command {
 
     @Override
     public void validate(HttpServletRequest request, VO vo, ValidateUtil validate) throws RuleException {
-        projectId = StrUtil.getNotNullIntValue(request.getParameter("projectId"),0);
-        if(projectId==0){
+        projectId = StrUtil.getNotNullIntValue(request.getParameter("projectId"), 0);
+        if (projectId == 0) {
             validate.addError("项目id错误");
         }
     }

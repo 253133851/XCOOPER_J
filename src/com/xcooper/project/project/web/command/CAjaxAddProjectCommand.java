@@ -13,6 +13,8 @@ import com.pabula.fw.utility.RequestHelper;
 import com.pabula.fw.utility.VO;
 import com.xcooper.project.project.busi.ProjectBean;
 import com.xcooper.project.project.vo.ProjectVO;
+import com.xcooper.project.projectMember.busi.ProjectMemberBean;
+import com.xcooper.project.projectMember.vo.ProjectMemberVO;
 import com.xcooper.task.task.busi.TaskBean;
 import com.xcooper.task.task.vo.TaskVO;
 
@@ -21,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 
 /**
- * Created by zdk on 2016.4.17.
+ * Created by zdk on 2016.4.19.
  */
 public class CAjaxAddProjectCommand implements Command {
 
@@ -30,6 +32,8 @@ public class CAjaxAddProjectCommand implements Command {
 
 
         ProjectBean projectBean = new ProjectBean();
+
+        ProjectMemberBean projectMemberBean = new ProjectMemberBean();
 
         ProjectVO projectVO = new ProjectVO();
 
@@ -51,6 +55,27 @@ public class CAjaxAddProjectCommand implements Command {
         //设置是否只读 isReadOnly
         projectVO.setIS_READ_ONLY(StrUtil.getNotNullIntValue(request.getParameter("isReadOnly"),-1));
 
+        //循环插入 memberId 到 Project_Member表中
+        String memberIds = request.getParameter("memberIds");
+
+        String[] memberIdArray=memberIds.split(",");
+
+        for (int i = 0; i < memberIdArray.length; i++) {
+
+            ProjectMemberVO projectMemberVO = new ProjectMemberVO();
+
+            //设置 id
+            projectMemberVO.setID(SeqNumHelper.getNewSeqNum("project_member"));
+
+            //设置当前的projectId
+            projectMemberVO.setPEOJECT_ID(projectVO.getPROJECT_ID());
+
+            //设置添加的用户id memberId
+            projectMemberVO.setMEMBER_ID(StrUtil.getNotNullIntValue(memberIdArray[i],0));
+
+            projectMemberBean.addProjectMember(projectMemberVO);
+
+        }
 
         try {
             projectBean.addProject(projectVO);

@@ -1,5 +1,6 @@
 package com.xcooper.project.projectMember.busi;
 
+import com.pabula.common.util.DateUtil;
 import com.pabula.fw.exception.DataAccessException;
 import com.xcooper.project.projectMember.dao.ProjectMemberDAO;
 import com.xcooper.project.projectMember.vo.ProjectMemberVO;
@@ -28,6 +29,7 @@ public class ProjectMemberBean {
 	 * @author zdk 2016-03-28 19:29:42
 	 */
 	public void addProjectMember(ProjectMemberVO VO)throws DataAccessException{
+		VO.setADD_DATETIME(DateUtil.getCurrTime());
 		dao.addProjectMember(VO);
 	}
 

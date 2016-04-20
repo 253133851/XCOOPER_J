@@ -8,7 +8,7 @@ Desktop.ini
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
-/.idea/
+.idea/
 
 # Windows Installer files
 *.cab
@@ -48,3 +48,4 @@ Network Trash Folder
 Temporary Items
 .apdisk
 *.xml
+.idea/workspace.xml

@@ -10,8 +10,7 @@ import com.pabula.fw.exception.SysException;
 import com.pabula.fw.utility.Command;
 import com.pabula.fw.utility.RequestHelper;
 import com.pabula.fw.utility.VO;
-import com.xcooper.project.project.busi.ProjectBean;
-import com.xcooper.task.task.busi.TaskBean;
+import com.xcooper.project.projectMember.busi.ProjectMemberBean;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,19 +18,19 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Created by zdk on 2016.4.19.
  */
-public class CAjaxDeleteProjectCommand implements Command {
+public class CAjaxDeleteProjectMemberCommand implements Command {
 
     @Override
     public String execute(RequestHelper helper, HttpServletRequest request) throws ServletException, BusinessRuleException, DataAccessException, SysException {
 
 
-        int projectId = StrUtil.getNotNullIntValue(request.getParameter("projectId"), 0);
+        int id = StrUtil.getNotNullIntValue(request.getParameter("id"), 0);
 
-        ProjectBean projectBean = new ProjectBean();
+        ProjectMemberBean projectMemberBean = new ProjectMemberBean();
 
         try {
             //删除该id的记录
-            projectBean.delProject(projectId);
+            projectMemberBean.delProjectMember(id);
             return JsonResultUtil.instance().ok();
         } catch (DataAccessException e) {
             return JsonResultUtil.instance().

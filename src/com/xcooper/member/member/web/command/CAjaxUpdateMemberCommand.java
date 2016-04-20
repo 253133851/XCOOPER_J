@@ -1,4 +1,4 @@
-package com.xcooper.project.project.web.command;
+package com.xcooper.member.member.web.command;
 
 import com.pabula.common.util.JsonResultUtil;
 import com.pabula.common.util.StrUtil;
@@ -10,35 +10,40 @@ import com.pabula.fw.exception.SysException;
 import com.pabula.fw.utility.Command;
 import com.pabula.fw.utility.RequestHelper;
 import com.pabula.fw.utility.VO;
-import com.xcooper.project.project.busi.ProjectBean;
-import com.xcooper.task.task.busi.TaskBean;
+import com.xcooper.list.busi.ListBean;
+import com.xcooper.list.vo.ListVO;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Created by zdk on 2016.4.19.
+ * Created by zdk on 2016.4.17.
  */
-public class CAjaxDeleteProjectCommand implements Command {
+public class CAjaxUpdateMemberCommand implements Command {
 
     @Override
     public String execute(RequestHelper helper, HttpServletRequest request) throws ServletException, BusinessRuleException, DataAccessException, SysException {
 
+        ListBean bean = new ListBean();
 
-        int projectId = StrUtil.getNotNullIntValue(request.getParameter("projectId"), 0);
+        int id = StrUtil.getNotNullIntValue(request.getParameter("id"), 0);
 
-        ProjectBean projectBean = new ProjectBean();
+        ListVO list = bean.getListByID(id);
 
-        try {
-            //删除该id的记录
-            projectBean.delProject(projectId);
-            return JsonResultUtil.instance().ok();
-        } catch (DataAccessException e) {
-            return JsonResultUtil.instance().
-                    addMsg(e.getMessage())
-                    .addCode(JsonResultUtil.ERROR).json();
-        }
+        //修改 清单名 listName
+        list.setLIST_NAME(request.getParameter("listName"));
 
+        //修改 排序值 orderNum
+        list.setORDER_NUM(StrUtil.getNotNullIntValue(request.getParameter("orderNum"),0));
+
+
+//        list.setADD_DATETIME(Timestamp.valueOf(request.getParameter("截止时间")));
+
+        bean.modifyList(list);
+
+        //返回ok
+
+        return JsonResultUtil.instance().ok();
     }
 
     @Override

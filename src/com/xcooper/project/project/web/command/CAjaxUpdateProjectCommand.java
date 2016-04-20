@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 
 /**
- * Created by zdk on 2016.4.17.
+ * Created by zdk on 2016.4.19.
  */
 public class CAjaxUpdateProjectCommand implements Command {
 
