@@ -100,6 +100,26 @@ public class MemberDAO {
 	}
 
 	/**
+	 * 删除用户byUserId
+	 * @param USER_ID
+	 * @throws DataAccessException
+	 * @author zdk 2016-04-22
+	 */
+	public void delMemberByUserId(int USER_ID)throws DataAccessException {
+
+		try {
+			SqlHelper sh = new SqlHelper();
+
+			sh.setTable("MEMBER");
+
+			sh.setWhereForInt("USER_ID", " = ", USER_ID);//USER_ID
+
+			sh.delete(ResourceManager.getConnection(),"删除用户byUserId");
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
+		}
+	}
+	/**
 	 * 批量删除用户
 	 * @param coll 主键集合，多个主键之间用半角逗号隔开
 	 * @throws DataAccessException

@@ -41,7 +41,7 @@ public class CAjaxAddUserCommand implements Command {
         userVO.setUID(SeqNumHelper.getNewSeqNum("user"));
 
         //插入登录id loginId
-        userVO.setLOGIN_ID(StrUtil.getNotNullIntValue(request.getParameter("loginId"),0));
+        userVO.setLOGIN_ID(request.getParameter("loginId"));
 
         //插入密码 pwd
         userVO.setPWD(request.getParameter("pwd"));

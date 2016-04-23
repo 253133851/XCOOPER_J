@@ -52,6 +52,16 @@ public class MemberBean {
 	}
 
 	/**
+	 * 删除用户byUserId
+	 * @param User_ID
+	 * @throws DataAccessException
+	 * @author zdk 2016-04-22
+	 */
+	public void delMemberByUserId(int User_ID)throws DataAccessException {
+		dao.delMemberByUserId(User_ID);
+	}
+
+	/**
 	 * 批量删除用户
 	 * @param coll 主键集合，多个主键之间用半角逗号隔开
 	 * @throws DataAccessException

@@ -1,5 +1,6 @@
 package com.xcooper.member.merbertask.busi;
 
+import com.pabula.common.util.DateUtil;
 import com.pabula.fw.exception.DataAccessException;
 import com.xcooper.member.merbertask.dao.MemberTaskDAO;
 import com.xcooper.member.merbertask.vo.MemberTaskVO;
@@ -28,6 +29,7 @@ public class MemberTaskBean {
 	 * @author zdk 2016-03-28 19:36:13
 	 */
 	public void addMemberTask(MemberTaskVO VO)throws DataAccessException{
+		VO.setADD_DATETIME(DateUtil.getCurrTime());
 		dao.addMemberTask(VO);
 	}
 
@@ -38,6 +40,7 @@ public class MemberTaskBean {
 	 * @author zdk 2016-03-28 19:36:13
 	 */
 	public void modifyMemberTask(MemberTaskVO VO)throws DataAccessException{
+		VO.setUPDATE_DATETIME(DateUtil.getCurrTime());
 		dao.modifyMemberTask(VO);
 	}
 

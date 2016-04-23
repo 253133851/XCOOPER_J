@@ -36,7 +36,7 @@ public class UserDAO {
 			sh.setTable("USER");
 
 			sh.setInsertForInt("UID",VO.getUID());//用户ID
-			sh.setInsertForInt("LOGIN_ID",VO.getLOGIN_ID());//登录ID
+			sh.setInsertForString("LOGIN_ID",VO.getLOGIN_ID());//登录ID
 			sh.setInsertForString("PWD",VO.getPWD());//密码
 			sh.setInsertForDatetime("REG_DATETIME", DateUtil.format(VO.getREG_DATETIME(),"yyyy-MM-dd HH:mm:ss"), true);//注册日期
 			sh.setInsertForInt("LOGINS",VO.getLOGINS());//登录次数
@@ -70,7 +70,7 @@ public class UserDAO {
 
 			sh.setTable("USER");
 
-			sh.setColumnForInt("LOGIN_ID",VO.getLOGIN_ID());//登录ID
+			sh.setColumnForString("LOGIN_ID",VO.getLOGIN_ID());//登录ID
 			sh.setColumnForString("PWD",VO.getPWD());//密码
 			sh.setColumnForDatetime("REG_DATETIME", DateUtil.format(VO.getREG_DATETIME(), "yyyy-MM-dd HH:mm:ss"), "yyyy-mm-dd hh24:mi:ss", true);//注册日期
 			sh.setColumnForInt("LOGINS",VO.getLOGINS());//登录次数
@@ -177,7 +177,7 @@ public class UserDAO {
 				UserVO VO = new UserVO();
 
 				VO.setUID(rs.getInt("UID")); 	//用户ID
-				VO.setLOGIN_ID(rs.getInt("LOGIN_ID")); 	//登录ID
+				VO.setLOGIN_ID(rs.getString("LOGIN_ID")); 	//登录ID
 				VO.setPWD(rs.getString("PWD")); 	//密码
 				VO.setREG_DATETIME(rs.getTimestamp("REG_DATETIME")); 	//注册日期
 				VO.setLOGINS(rs.getInt("LOGINS")); 	//登录次数

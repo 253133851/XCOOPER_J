@@ -39,7 +39,7 @@ public class TomatoDAO {
 			sh.setInsertForInt("SERVICE_ID",VO.getSERVICE_ID());//SERVICE_ID
 			sh.setInsertForInt("CREATE_ID",VO.getCREATE_ID());//CREATE_ID
 			sh.setInsertForInt("TASK_ID",VO.getTASK_ID());//对应任务
-			sh.setInsertForInt("BEGIN_DATETIME",VO.getBEGIN_DATETIME());//BEGIN_DATETIME
+			sh.setInsertForDatetime("BEGIN_DATETIME", DateUtil.format(VO.getBEGIN_DATETIME(),"yyyy-MM-dd HH:mm:ss"), true);//BEGIN_DATETIME
 			sh.setInsertForDatetime("END_DATETIME", DateUtil.format(VO.getEND_DATETIME(),"yyyy-MM-dd HH:mm:ss"), true);//END_DATETIME
 			sh.setInsertForString("RING",VO.getRING());//铃声
 			sh.setInsertForString("REMARK",VO.getREMARK());//REMARK
@@ -68,7 +68,7 @@ public class TomatoDAO {
 			sh.setColumnForInt("SERVICE_ID",VO.getSERVICE_ID());//SERVICE_ID
 			sh.setColumnForInt("CREATE_ID",VO.getCREATE_ID());//CREATE_ID
 			sh.setColumnForInt("TASK_ID",VO.getTASK_ID());//对应任务
-			sh.setColumnForInt("BEGIN_DATETIME",VO.getBEGIN_DATETIME());//BEGIN_DATETIME
+			sh.setColumnForDatetime("BEGIN_DATETIME",DateUtil.format(VO.getBEGIN_DATETIME(), "yyyy-MM-dd HH:mm:ss"), "yyyy-mm-dd hh24:mi:ss", true);//BEGIN_DATETIME
 			sh.setColumnForDatetime("END_DATETIME", DateUtil.format(VO.getEND_DATETIME(), "yyyy-MM-dd HH:mm:ss"), "yyyy-mm-dd hh24:mi:ss", true);//END_DATETIME
 			sh.setColumnForString("RING",VO.getRING());//铃声
 			sh.setColumnForString("REMARK",VO.getREMARK());//REMARK
@@ -170,7 +170,7 @@ public class TomatoDAO {
 				VO.setSERVICE_ID(rs.getInt("SERVICE_ID")); 	//SERVICE_ID
 				VO.setCREATE_ID(rs.getInt("CREATE_ID")); 	//CREATE_ID
 				VO.setTASK_ID(rs.getInt("TASK_ID")); 	//对应任务
-				VO.setBEGIN_DATETIME(rs.getInt("BEGIN_DATETIME")); 	//BEGIN_DATETIME
+				VO.setBEGIN_DATETIME(rs.getTimestamp("BEGIN_DATETIME")); 	//BEGIN_DATETIME
 				VO.setEND_DATETIME(rs.getTimestamp("END_DATETIME")); 	//END_DATETIME
 				VO.setRING(rs.getString("RING")); 	//铃声
 				VO.setREMARK(rs.getString("REMARK")); 	//REMARK

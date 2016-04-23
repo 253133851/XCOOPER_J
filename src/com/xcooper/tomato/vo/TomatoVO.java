@@ -24,7 +24,7 @@ public class TomatoVO implements VO {
 	int TASK_ID;
 
 	//BEGIN_DATETIME
-	int BEGIN_DATETIME;
+	Timestamp BEGIN_DATETIME;
 
 	//END_DATETIME
 	Timestamp END_DATETIME;
@@ -100,14 +100,14 @@ public class TomatoVO implements VO {
 	/**
 	 * @return 返回 BEGIN_DATETIME BEGIN_DATETIME
 	 */
-	public int getBEGIN_DATETIME() {
+	public Timestamp getBEGIN_DATETIME() {
 		return BEGIN_DATETIME;
 	}
 
 	/**
 	 * @param BEGIN_DATETIME 设置 BEGIN_DATETIME 的值
 	 */
-	public void setBEGIN_DATETIME(int BEGIN_DATETIME) {
+	public void setBEGIN_DATETIME(Timestamp BEGIN_DATETIME) {
 		this.BEGIN_DATETIME = BEGIN_DATETIME;
 	}
 

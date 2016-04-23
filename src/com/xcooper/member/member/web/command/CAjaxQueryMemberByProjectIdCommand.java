@@ -15,29 +15,41 @@ import com.xcooper.member.member.busi.MemberBean;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
 
 /**
  * Created by zdk on 2016.4.17.
  */
-public class CAjaxDeleteMemberCommand implements Command {
+public class CAjaxQueryMemberByProjectIdCommand implements Command {
 
     @Override
     public String execute(RequestHelper helper, HttpServletRequest request) throws ServletException, BusinessRuleException, DataAccessException, SysException {
 
-
-        int memberId = StrUtil.getNotNullIntValue(request.getParameter("memberId"), 0);
-
         MemberBean memberBean = new MemberBean();
+
+        int projectId = StrUtil.getNotNullIntValue(request.getParameter("projectId"), 0);
+
+        if (projectId == 0) {
+            return JsonResultUtil.error();
+        }
+
+
         try {
-            //删除该id的记录
-            memberBean.delMember(memberId);
-            return JsonResultUtil.instance().ok();
+            Collection list = memberBean.getMemberColl("select * from list where project_id = " + projectId);
+
+            //返回查询的所有json数据
+            //判断如果查询不到数据(list.size<=0),则报错
+            if (list.size() <= 0) {
+                return JsonResultUtil.instance().
+                        addMsg("该projectId下找不到内容").addData("projectId=" + projectId)
+                        .addCode(JsonResultUtil.ERROR).json();
+            }
+            return JsonResultUtil.instance().addData(list).json();
         } catch (DataAccessException e) {
             return JsonResultUtil.instance().
                     addMsg(e.getMessage())
                     .addCode(JsonResultUtil.ERROR).json();
         }
-
     }
 
     @Override

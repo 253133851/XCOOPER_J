@@ -1,4 +1,4 @@
-package com.xcooper.member.member.web.command;
+package com.xcooper.member.merbertask.web.command;
 
 import com.pabula.common.util.JsonResultUtil;
 import com.pabula.common.util.StrUtil;
@@ -12,6 +12,8 @@ import com.pabula.fw.utility.RequestHelper;
 import com.pabula.fw.utility.VO;
 import com.xcooper.list.busi.ListBean;
 import com.xcooper.list.vo.ListVO;
+import com.xcooper.member.merbertask.busi.MemberTaskBean;
+import com.xcooper.member.merbertask.vo.MemberTaskVO;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,28 +21,28 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Created by zdk on 2016.4.17.
  */
-public class CAjaxUpdateMemberCommand implements Command {
+public class CAjaxUpdateMemberTaskCommand implements Command {
 
     @Override
     public String execute(RequestHelper helper, HttpServletRequest request) throws ServletException, BusinessRuleException, DataAccessException, SysException {
 
-        ListBean bean = new ListBean();
-
+        MemberTaskBean memberTaskBean = new MemberTaskBean();
 
         int id = StrUtil.getNotNullIntValue(request.getParameter("id"), 0);
 
-        ListVO list = bean.getListByID(id);
+        MemberTaskVO memberTaskVO = memberTaskBean.getMemberTaskByID(id);
 
-        //修改 清单名 listName
-        list.setLIST_NAME(request.getParameter("listName"));
+        //修改 memberId
+        memberTaskVO.setMEMBER_ID(StrUtil.getNotNullIntValue(request.getParameter("memberId"),0));
 
-        //修改 排序值 orderNum
-        list.setORDER_NUM(StrUtil.getNotNullIntValue(request.getParameter("orderNum"),0));
+        //修改 taskId
+        memberTaskVO.setTASK_ID(StrUtil.getNotNullIntValue(request.getParameter("taskId"),0));
+
+        //修改是否关注 isFocus
+        memberTaskVO.setIS_FOCUS(StrUtil.getNotNullIntValue(request.getParameter("isFocus"),0));
 
 
-//        list.setADD_DATETIME(Timestamp.valueOf(request.getParameter("截止时间")));
-
-        bean.modifyList(list);
+        memberTaskBean.modifyMemberTask(memberTaskVO);
 
         //返回ok
 

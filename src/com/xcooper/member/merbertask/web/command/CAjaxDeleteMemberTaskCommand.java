@@ -1,4 +1,4 @@
-package com.xcooper.member.member.web.command;
+package com.xcooper.member.merbertask.web.command;
 
 import com.pabula.common.util.JsonResultUtil;
 import com.pabula.common.util.StrUtil;
@@ -11,44 +11,34 @@ import com.pabula.fw.utility.Command;
 import com.pabula.fw.utility.RequestHelper;
 import com.pabula.fw.utility.VO;
 import com.xcooper.list.busi.ListBean;
+import com.xcooper.member.merbertask.busi.MemberTaskBean;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collection;
 
 /**
  * Created by zdk on 2016.4.17.
  */
-public class CAjaxQueryMemberByIdCommand implements Command {
+public class CAjaxDeleteMemberTaskCommand implements Command {
 
     @Override
     public String execute(RequestHelper helper, HttpServletRequest request) throws ServletException, BusinessRuleException, DataAccessException, SysException {
 
-        ListBean bean = new ListBean();
 
-        int projectId = StrUtil.getNotNullIntValue(request.getParameter("projectId"), 0);
+        int id = StrUtil.getNotNullIntValue(request.getParameter("id"), 0);
 
-        if (projectId == 0) {
-            return JsonResultUtil.error();
-        }
-
+        MemberTaskBean memberTaskBean = new MemberTaskBean();
 
         try {
-            Collection list = bean.getListColl("select * from list where project_id = " + projectId);
-
-            //返回查询的所有json数据
-            //判断如果查询不到数据(list.size<=0),则报错
-            if (list.size() <= 0) {
-                return JsonResultUtil.instance().
-                        addMsg("该projectId下找不到内容").addData("projectId=" + projectId)
-                        .addCode(JsonResultUtil.ERROR).json();
-            }
-            return JsonResultUtil.instance().addData(list).json();
+            //删除该id的记录
+            memberTaskBean.delMemberTask(id);
+            return JsonResultUtil.instance().ok();
         } catch (DataAccessException e) {
             return JsonResultUtil.instance().
                     addMsg(e.getMessage())
                     .addCode(JsonResultUtil.ERROR).json();
         }
+
     }
 
     @Override

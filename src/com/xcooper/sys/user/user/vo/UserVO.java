@@ -15,7 +15,7 @@ public class UserVO implements VO {
 	int UID;
 
 	//登录ID
-	int LOGIN_ID;
+	String LOGIN_ID;
 
 	//密码
 	String PWD;
@@ -73,14 +73,14 @@ public class UserVO implements VO {
 	/**
 	 * @return 返回 LOGIN_ID 登录ID
 	 */
-	public int getLOGIN_ID() {
+	public String getLOGIN_ID() {
 		return LOGIN_ID;
 	}
 
 	/**
 	 * @param LOGIN_ID 设置 LOGIN_ID 的值
 	 */
-	public void setLOGIN_ID(int LOGIN_ID) {
+	public void setLOGIN_ID(String LOGIN_ID) {
 		this.LOGIN_ID = LOGIN_ID;
 	}
 

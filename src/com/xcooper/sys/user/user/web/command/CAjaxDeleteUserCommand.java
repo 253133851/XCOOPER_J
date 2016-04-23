@@ -1,4 +1,4 @@
-package com.xcooper.member.member.web.command;
+package com.xcooper.sys.user.user.web.command;
 
 import com.pabula.common.util.JsonResultUtil;
 import com.pabula.common.util.StrUtil;
@@ -11,7 +11,8 @@ import com.pabula.fw.utility.Command;
 import com.pabula.fw.utility.RequestHelper;
 import com.pabula.fw.utility.VO;
 import com.xcooper.list.busi.ListBean;
-import com.xcooper.list.vo.ListVO;
+import com.xcooper.member.member.busi.MemberBean;
+import com.xcooper.sys.user.user.busi.UserBean;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,32 +20,31 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Created by zdk on 2016.4.17.
  */
-public class CAjaxUpdateMemberCommand implements Command {
+public class CAjaxDeleteUserCommand implements Command {
 
     @Override
     public String execute(RequestHelper helper, HttpServletRequest request) throws ServletException, BusinessRuleException, DataAccessException, SysException {
 
-        ListBean bean = new ListBean();
+
+        int uid = StrUtil.getNotNullIntValue(request.getParameter("uid"), 0);
+
+        UserBean userBean = new UserBean();
+
+        MemberBean memberBean = new MemberBean();
 
 
-        int id = StrUtil.getNotNullIntValue(request.getParameter("id"), 0);
+        try {
+            //删除user表中该uid的记录
+            userBean.delUser(uid);
+            //删除member表中该uid的记录
+            memberBean.delMemberByUserId(uid);
+            return JsonResultUtil.instance().ok();
+        } catch (DataAccessException e) {
+            return JsonResultUtil.instance().
+                    addMsg(e.getMessage())
+                    .addCode(JsonResultUtil.ERROR).json();
+        }
 
-        ListVO list = bean.getListByID(id);
-
-        //修改 清单名 listName
-        list.setLIST_NAME(request.getParameter("listName"));
-
-        //修改 排序值 orderNum
-        list.setORDER_NUM(StrUtil.getNotNullIntValue(request.getParameter("orderNum"),0));
-
-
-//        list.setADD_DATETIME(Timestamp.valueOf(request.getParameter("截止时间")));
-
-        bean.modifyList(list);
-
-        //返回ok
-
-        return JsonResultUtil.instance().ok();
     }
 
     @Override
