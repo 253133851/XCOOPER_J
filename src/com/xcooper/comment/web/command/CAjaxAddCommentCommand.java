@@ -1,9 +1,6 @@
 package com.xcooper.comment.web.command;
 
-import com.pabula.common.util.JsonResultUtil;
-import com.pabula.common.util.SeqNumHelper;
-import com.pabula.common.util.StrUtil;
-import com.pabula.common.util.ValidateUtil;
+import com.pabula.common.util.*;
 import com.pabula.fw.exception.BusinessRuleException;
 import com.pabula.fw.exception.DataAccessException;
 import com.pabula.fw.exception.RuleException;
@@ -44,7 +41,6 @@ public class CAjaxAddCommentCommand implements Command {
 
         //StrUtil.getNotNullIntValue("")  插入不为null的int
         comment.setIS_DONE(StrUtil.getNotNullIntValue(request.getParameter("isDone"), 0));
-
 
         try {
             bean.addComment(comment);
