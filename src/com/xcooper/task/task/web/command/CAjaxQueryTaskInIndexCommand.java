@@ -10,12 +10,15 @@ import com.pabula.fw.exception.SysException;
 import com.pabula.fw.utility.Command;
 import com.pabula.fw.utility.RequestHelper;
 import com.pabula.fw.utility.VO;
+import com.xcooper.member.member.busi.MemberBean;
 import com.xcooper.project.project.busi.ProjectBean;
+import com.xcooper.sys.user.user.busi.UserBean;
 import com.xcooper.task.task.busi.TaskBean;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
+import java.beans.PropertyDescriptor;
 
 /**
  * Created by zdk on 2016.4.17.
@@ -27,17 +30,15 @@ public class CAjaxQueryTaskInIndexCommand implements Command {
     public String execute(RequestHelper helper, HttpServletRequest request) throws ServletException, BusinessRuleException, DataAccessException, SysException {
 
         TaskBean taskBean = new TaskBean();
-        ProjectBean projectBean= new ProjectBean();
+        ProjectBean projectBean = new ProjectBean();
 
         int memberId = StrUtil.getNotNullIntValue(request.getParameter("memberId"), 0);
-
-
 
         try {
             //返回 我负责的任务
             Collection myTaskList = taskBean.getTaskColl
                     ("select * from task left join member_task on task.task_id = member_task.task_id " +
-                            "where exe_id = " + memberId );
+                            "where exe_id = " + memberId);
             //返回 我创建的任务
             Collection myCreateTaskList = taskBean.getTaskColl("select * from task where create_id =" + memberId);
 
@@ -48,13 +49,16 @@ public class CAjaxQueryTaskInIndexCommand implements Command {
             //返回 表PROJECT的所有数据
             Collection projectList = projectBean.getProjectColl("select * from project");
 
+            //返回 表USER的所有数据
+            Collection memberList = new MemberBean().getMemberColl("select * from  member ");
+
             //返回查询的所有json数据
             if (myTaskList.size() <= 0) {
                 return JsonResultUtil.instance().
                         addMsg("找不到内容")
                         .addCode(JsonResultUtil.ERROR).json();
             }
-            return JsonResultUtil.instance().addExtraData(new Object[]{myTaskList,myCreateTaskList,myFocusTaskList,projectList}).json();
+            return JsonResultUtil.instance().addExtraData(new Object[]{myTaskList, myCreateTaskList, myFocusTaskList, projectList, memberList}).json();
 
         } catch (DataAccessException e) {
             return JsonResultUtil.instance().
