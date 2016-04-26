@@ -1,9 +1,6 @@
 package com.xcooper.comment.web.command;
 
-import com.pabula.common.util.JsonResultUtil;
-import com.pabula.common.util.SeqNumHelper;
-import com.pabula.common.util.StrUtil;
-import com.pabula.common.util.ValidateUtil;
+import com.pabula.common.util.*;
 import com.pabula.fw.exception.BusinessRuleException;
 import com.pabula.fw.exception.DataAccessException;
 import com.pabula.fw.exception.RuleException;
