@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 
 /**
- * Created by zdk on 2016.4.17.
+ * Created by zdk on 2016.4.26.
  */
 public class CAjaxAddTomatoCommand implements Command {
 
@@ -36,17 +36,23 @@ public class CAjaxAddTomatoCommand implements Command {
         //SeqNumHelper.getNewSeqNum("xxxx") 像VO对象中插入可用ID
         tomatoVO.setTOMATO_ID(SeqNumHelper.getNewSeqNum("tomato"));
 
-        //添加创建人id createId
-        tomatoVO.setCREATE_ID(StrUtil.getNotNullIntValue(request.getParameter("createId"),0));
+        //创建人id createId
+        tomatoVO.setCREATE_ID(StrUtil.getNotNullIntValue(request.getParameter("createId"), 0));
 
-        //添加对应任务id taskId
-        tomatoVO.setTASK_ID(StrUtil.getNotNullIntValue(request.getParameter("taskId"),0));
+        //对应任务id taskId
+        tomatoVO.setTASK_ID(StrUtil.getNotNullIntValue(request.getParameter("taskId"), 0));
 
-        //添加开始时间 beginDatetime
+        //开始时间 beginDatetime
         tomatoVO.setBEGIN_DATETIME(Timestamp.valueOf(request.getParameter("beginDatetime")));
 
-        //        list.setADD_DATETIME(Timestamp.valueOf(request.getParameter("截止时间")));
+        //截止时间 endDatetime
+        tomatoVO.setEND_DATETIME(Timestamp.valueOf(request.getParameter("endDatetime")));
 
+        //铃声 ring
+        tomatoVO.setRING(request.getParameter("ring"));
+
+        //备注 remark
+        tomatoVO.setREMARK(request.getParameter("remark"));
 
         try {
             tomatoBean.addTomato(tomatoVO);
@@ -57,26 +63,11 @@ public class CAjaxAddTomatoCommand implements Command {
                     .addCode(JsonResultUtil.ERROR).json();
         }
 
-//        返回error
-//        JsonResultUtil.instance().error();
-//        返回ok
-//        JsonResultUtil.instance().ok();
-//        返回带参数的json
-//        JsonResultUtil.instance()
-//                .addMsg(e.getMessage()).
-//                addCode(JsonResultUtil.OK)
-//                .addData("xxx")
-//                .json();
-    }
 
-    //项目id
-    int projectId;
+    }
 
     @Override
     public void validate(HttpServletRequest request, VO vo, ValidateUtil validate) throws RuleException {
-        projectId = StrUtil.getNotNullIntValue(request.getParameter("projectId"), 0);
-        if (projectId == 0) {
-            validate.addError("项目id错误");
-        }
+
     }
 }

@@ -14,28 +14,26 @@ import com.xcooper.comment.busi.CommentBean;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
 
 /**
  * Created by 26901 on 2016.4.16.
  */
-public class CAjaxDeleteCommentCommand implements Command {
+public class CAjaxQueryCommentByAimIdCommand implements Command {
 
     @Override
     public String execute(RequestHelper helper, HttpServletRequest request) throws ServletException, BusinessRuleException, DataAccessException, SysException {
 
+        int aimId = StrUtil.getNotNullIntValue(request.getParameter("aimId"),0);
 
-        int commentId = StrUtil.getNotNullIntValue(request.getParameter("id"), 0);
+        CommentBean commentBean = new CommentBean();
 
-        CommentBean bean = new CommentBean();
-
-        try {
-            bean.delComment(commentId);
-            return JsonResultUtil.instance().ok();
-        } catch (DataAccessException e) {
-            return JsonResultUtil.instance().
-                    addMsg(e.getMessage())
-                    .addCode(JsonResultUtil.ERROR).json();
+        if(aimId==0){
+            return JsonResultUtil.error();
         }
+        Collection list = commentBean.getCommentColl("select * from comment where aim_id = "+ aimId );
+
+        return JsonResultUtil.instance().addData(list).json();
 
     }
 

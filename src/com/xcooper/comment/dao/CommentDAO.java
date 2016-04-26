@@ -37,6 +37,7 @@ public class CommentDAO {
                 SqlHelper sh = new SqlHelper();
                 sh.setTable("COMMENT");
                 sh.setInsertForInt("COMMENT_ID", VO.getCOMMENT_ID());//COMMENT_ID
+                sh.setInsertForInt("AIM_ID",VO.getAIM_ID());//AIM_ID
                 sh.setInsertForInt("SERVICE_ID", VO.getSERVICE_ID());//SERVICE_ID
                 sh.setInsertForInt("COMMENT_MEMBER_ID", VO.getCOMMENT_MEMBER_ID());//评论人
                 sh.setInsertForString("COMMENT_TITLE", VO.getCOMMENT_TITLE());//COMMENT_TITLE
@@ -99,6 +100,7 @@ public class CommentDAO {
             sh.setTable("COMMENT");
 
             sh.setColumnForInt("SERVICE_ID", VO.getSERVICE_ID());//SERVICE_ID
+            sh.setInsertForInt("AIM_ID",VO.getAIM_ID());//AIM_ID
             sh.setColumnForInt("COMMENT_MEMBER_ID", VO.getCOMMENT_MEMBER_ID());//评论人
             sh.setColumnForString("COMMENT_TITLE", VO.getCOMMENT_TITLE());//COMMENT_TITLE
             sh.setColumnForString("COMMENT", VO.getCOMMENT());//评论内容
@@ -206,6 +208,7 @@ public class CommentDAO {
                 CommentVO VO = new CommentVO();
 
                 VO.setCOMMENT_ID(rs.getInt("COMMENT_ID"));    //COMMENT_ID
+                VO.setAIM_ID(rs.getInt("AIM_ID"));
                 VO.setSERVICE_ID(rs.getInt("SERVICE_ID"));    //SERVICE_ID
                 VO.setCOMMENT_MEMBER_ID(rs.getInt("COMMENT_MEMBER_ID"));    //评论人
                 VO.setCOMMENT_TITLE(rs.getString("COMMENT_TITLE"));    //COMMENT_TITLE

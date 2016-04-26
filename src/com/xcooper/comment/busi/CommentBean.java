@@ -1,5 +1,6 @@
 package com.xcooper.comment.busi;
 
+import com.pabula.common.util.DateUtil;
 import com.pabula.common.util.SeqNumHelper;
 import com.pabula.fw.exception.DataAccessException;
 import com.xcooper.comment.dao.CommentDAO;
@@ -29,6 +30,7 @@ public class CommentBean {
 	 * @author zdk 2016-03-28 19:33:56
 	 */
 	public void addComment(CommentVO VO)throws DataAccessException{
+		VO.setADD_DATETIME(DateUtil.getCurrTime());
 		dao.addComment(VO);
 	}
 
@@ -39,6 +41,7 @@ public class CommentBean {
 	 * @author zdk 2016-03-28 19:33:56
 	 */
 	public void modifyComment(CommentVO VO)throws DataAccessException{
+		VO.setUPDATE_DATETIME(DateUtil.getCurrTime());
 		dao.modifyComment(VO);
 	}
 

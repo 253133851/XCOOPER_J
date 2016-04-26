@@ -1,5 +1,6 @@
 package com.xcooper.tomato.busi;
 
+import com.pabula.common.util.DateUtil;
 import com.pabula.fw.exception.DataAccessException;
 import com.xcooper.tomato.dao.TomatoDAO;
 import com.xcooper.tomato.vo.TomatoVO;
@@ -28,6 +29,7 @@ public class TomatoBean {
 	 * @author zdk 2016-03-28 19:42:34
 	 */
 	public void addTomato(TomatoVO VO)throws DataAccessException {
+		VO.setADD_DATETIME(DateUtil.getCurrTime());
 		dao.addTomato(VO);
 	}
 
@@ -38,6 +40,7 @@ public class TomatoBean {
 	 * @author zdk 2016-03-28 19:42:34
 	 */
 	public void modifyTomato(TomatoVO VO)throws DataAccessException {
+		VO.setUPDATE_DATETIME(DateUtil.getCurrTime());
 		dao.modifyTomato(VO);
 	}
 

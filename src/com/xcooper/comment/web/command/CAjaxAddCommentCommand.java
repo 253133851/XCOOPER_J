@@ -28,26 +28,43 @@ public class CAjaxAddCommentCommand implements Command {
     public String execute(RequestHelper helper, HttpServletRequest request) throws ServletException, BusinessRuleException, DataAccessException, SysException {
 
 
-        CommentBean bean = new CommentBean();
+        CommentBean commentBean = new CommentBean();
 
-        ListBean listBean = new ListBean();
-
-
-        CommentVO comment = new CommentVO();
+        CommentVO commentVO = new CommentVO();
 
         //SeqNumHelper.getNewSeqNum("xxxx")  向VO中插入"comment"表中可用的id
-        comment.setCOMMENT_ID(SeqNumHelper.getNewSeqNum("comment"));
+        commentVO.setCOMMENT_ID(SeqNumHelper.getNewSeqNum("comment"));
 
+        //插入任务/话题id aimId
+        commentVO.setAIM_ID(StrUtil.getNotNullIntValue(request.getParameter("aimId"),0));
+
+        //评论人id commentId
+        commentVO.setCOMMENT_ID(StrUtil.getNotNullIntValue(request.getParameter("commentId"),0));
+
+        //讨论标题 commentTitle
         //request.getParameter("xxx")  插入字符串
-        comment.setCOMMENT_TITLE(request.getParameter("title"));
+        commentVO.setCOMMENT_TITLE(request.getParameter("commentTitle"));
 
+        //评论内容 comment
+        commentVO.setCOMMENT(request.getParameter("comment"));
 
-        //StrUtil.getNotNullIntValue("")  插入不为null的int
-        comment.setIS_DONE(StrUtil.getNotNullIntValue(request.getParameter("isDone"), 0));
+        //类型 type
+        commentVO.setTYPE(StrUtil.getNotNullIntValue(request.getParameter("type"),0));
 
+        //通知目标 targetId
+        commentVO.setTARGET_ID(request.getParameter("targetId"));
+
+        //访客是否可见 isShow
+        commentVO.setIS_SHOW(StrUtil.getNotNullIntValue(request.getParameter("isShow"),0));
+
+        //是否结束 isDown
+        commentVO.setIS_DONE(StrUtil.getNotNullIntValue(request.getParameter("isDown"),0));
+
+        //排序值 orderNum
+        commentVO.setORDER_NUM(StrUtil.getNotNullIntValue(request.getParameter("orderNum"),0));
 
         try {
-            bean.addComment(comment);
+            commentBean.addComment(commentVO);
             return JsonResultUtil.instance().ok();
         } catch (DataAccessException e) {
             return JsonResultUtil.instance().

@@ -24,16 +24,34 @@ public class CAjaxUpdateCommentCommand implements Command {
     @Override
     public String execute(RequestHelper helper, HttpServletRequest request) throws ServletException, BusinessRuleException, DataAccessException, SysException {
 
-        CommentBean bean = new CommentBean();
+        CommentBean commentBean = new CommentBean();
 
-        int id = StrUtil.getNotNullIntValue(request.getParameter("id"), 0);
+        int commentId = StrUtil.getNotNullIntValue(request.getParameter("id"), 0);
 
-        CommentVO comment = bean.getCommentByID(id);
+        CommentVO commentVO = commentBean.getCommentByID(commentId);
 
-        comment.setCOMMENT_TITLE(request.getParameter("title"));
+        commentVO.setCOMMENT_TITLE(request.getParameter("title"));
+        //讨论标题 commentTitle
+        //request.getParameter("xxx")  插入字符串
+        commentVO.setCOMMENT_TITLE(request.getParameter("commentTitle"));
+
+        //评论内容 comment
+        commentVO.setCOMMENT(request.getParameter("comment"));
+
+        //通知目标 targetId
+        commentVO.setTARGET_ID(request.getParameter("targetId"));
+
+        //访客是否可见 isShow
+        commentVO.setIS_SHOW(StrUtil.getNotNullIntValue(request.getParameter("isShow"),0));
+
+        //是否结束 isDown
+        commentVO.setIS_DONE(StrUtil.getNotNullIntValue(request.getParameter("isDown"),0));
+
+        //排序值 orderNum
+        commentVO.setORDER_NUM(StrUtil.getNotNullIntValue(request.getParameter("orderNum"),0));
 
         try {
-            bean.modifyComment(comment);
+            commentBean.modifyComment(commentVO);
             return JsonResultUtil.instance().ok();
         } catch (DataAccessException e) {
             return JsonResultUtil.instance().

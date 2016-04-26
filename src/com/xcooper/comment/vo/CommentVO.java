@@ -17,6 +17,10 @@ public class CommentVO implements VO {
 	//SERVICE_ID
 	int SERVICE_ID;
 
+	//任务/话题id
+	int AIM_ID;
+
+
 	//评论人
 	int COMMENT_MEMBER_ID;
 
@@ -49,6 +53,15 @@ public class CommentVO implements VO {
 
 	//END_DATETIME
 	Timestamp END_DATETIME;
+
+	public int getAIM_ID() {
+		return AIM_ID;
+	}
+
+	public void setAIM_ID(int AIM_ID) {
+		this.AIM_ID = AIM_ID;
+	}
+
 
 	/**
 	 * @return 返回 COMMENT_ID COMMENT_ID
