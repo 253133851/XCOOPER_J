@@ -8,8 +8,6 @@ Desktop.ini
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
-.idea/
-
 # Windows Installer files
 *.cab
 *.msi
@@ -50,6 +48,5 @@ Temporary Items
 *.xml
 .idea/workspace.xml
 *.class
-*.class
-*.xml
-.idea/workspace.xml
+
+

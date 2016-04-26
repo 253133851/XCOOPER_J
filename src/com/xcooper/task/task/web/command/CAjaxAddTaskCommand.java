@@ -11,6 +11,9 @@ import com.pabula.fw.exception.SysException;
 import com.pabula.fw.utility.Command;
 import com.pabula.fw.utility.RequestHelper;
 import com.pabula.fw.utility.VO;
+import com.xcooper.sys.log.web.command.LogType;
+import com.xcooper.sys.log.web.command.LogUtil;
+import com.xcooper.sys.log.web.command.OperaType;
 import com.xcooper.task.task.busi.TaskBean;
 import com.xcooper.task.task.vo.TaskVO;
 
@@ -53,6 +56,8 @@ public class CAjaxAddTaskCommand implements Command {
         //设置任务描述
         taskVO.setTASK_INFO(request.getParameter("taskInfo"));
 
+        //添加操作日志
+        LogUtil.operaLog(taskVO.getCREATE_ID(), OperaType.ADD, LogType.TASK,taskVO.getTASK_ID(),taskVO.getTASK_NAME());
 
         try {
             taskBean.addTask(taskVO);

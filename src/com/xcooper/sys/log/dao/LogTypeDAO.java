@@ -1,10 +1,10 @@
-package com.xcooper.sys.log.logtype.dao;
+package com.xcooper.sys.log.dao;
 
 import com.pabula.common.db.SqlHelper;
 import com.pabula.common.util.ResourceManager;
 import com.pabula.common.util.StrUtil;
 import com.pabula.fw.exception.DataAccessException;
-import com.xcooper.sys.log.logtype.vo.LogTypeVO;
+import com.xcooper.sys.log.vo.LogTypeVO;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

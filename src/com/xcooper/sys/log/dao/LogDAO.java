@@ -1,11 +1,11 @@
-package com.xcooper.sys.log.log.dao;
+package com.xcooper.sys.log.dao;
 
 import com.pabula.common.db.SqlHelper;
 import com.pabula.common.util.DateUtil;
 import com.pabula.common.util.ResourceManager;
 import com.pabula.common.util.StrUtil;
 import com.pabula.fw.exception.DataAccessException;
-import com.xcooper.sys.log.log.vo.LogVO;
+import com.xcooper.sys.log.vo.LogVO;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -42,6 +42,8 @@ public class LogDAO {
 			sh.setInsertForInt("TARGET_ID",VO.getTARGET_ID());//操作目标id
 			sh.setInsertForString("TARGET",VO.getTARGET());//操作目标
 			sh.setInsertForString("OPERA",VO.getOPERA());//操作内容
+			sh.setInsertForString("OPERA_TYPE",VO.getOPERA_TYPE());//操作类型
+			sh.setInsertForString("LOG_TYPE",VO.getLOG_TYPE());//日志类型
 			sh.setInsertForString("REMARK1",VO.getREMARK1());//REMARK1
 			sh.setInsertForString("REMARK2",VO.getREMARK2());//REMARK2
 			sh.setInsertForString("REMARK3",VO.getREMARK3());//REMARK3
@@ -72,6 +74,8 @@ public class LogDAO {
 			sh.setColumnForInt("TARGET_ID",VO.getTARGET_ID());//操作目标id
 			sh.setColumnForString("TARGET",VO.getTARGET());//操作目标
 			sh.setColumnForString("OPERA",VO.getOPERA());//操作内容
+			sh.setColumnForString("OPERA_TYPE",VO.getOPERA_TYPE());//操作内容
+			sh.setColumnForString("LOG_TYPE",VO.getLOG_TYPE());//操作内容
 			sh.setColumnForString("REMARK1",VO.getREMARK1());//REMARK1
 			sh.setColumnForString("REMARK2",VO.getREMARK2());//REMARK2
 			sh.setColumnForString("REMARK3",VO.getREMARK3());//REMARK3
@@ -175,6 +179,8 @@ public class LogDAO {
 				VO.setTARGET_ID(rs.getInt("TARGET_ID")); 	//操作目标id
 				VO.setTARGET(rs.getString("TARGET")); 	//操作目标
 				VO.setOPERA(rs.getString("OPERA")); 	//操作内容
+				VO.setOPERA(rs.getString("OPERA_TYPE")); 	//操作类型
+				VO.setOPERA(rs.getString("LOG_TYPE")); 	//日志类型
 				VO.setREMARK1(rs.getString("REMARK1")); 	//REMARK1
 				VO.setREMARK2(rs.getString("REMARK2")); 	//REMARK2
 				VO.setREMARK3(rs.getString("REMARK3")); 	//REMARK3

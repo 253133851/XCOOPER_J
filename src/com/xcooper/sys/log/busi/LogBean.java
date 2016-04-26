@@ -1,8 +1,9 @@
-package com.xcooper.sys.log.log.busi;
+package com.xcooper.sys.log.busi;
 
+import com.pabula.common.util.DateUtil;
 import com.pabula.fw.exception.DataAccessException;
-import com.xcooper.sys.log.log.dao.LogDAO;
-import com.xcooper.sys.log.log.vo.LogVO;
+import com.xcooper.sys.log.dao.LogDAO;
+import com.xcooper.sys.log.vo.LogVO;
 import org.apache.log4j.Logger;
 
 import java.util.Collection;
@@ -28,6 +29,7 @@ public class LogBean {
 	 * @author zdk 2016-03-28 19:40:04
 	 */
 	public void addLog(LogVO VO)throws DataAccessException{
+		VO.setADD_DATETIME(DateUtil.getCurrTime());
 		dao.addLog(VO);
 	}
 

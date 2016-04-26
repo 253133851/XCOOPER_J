@@ -1,8 +1,8 @@
-package com.xcooper.sys.log.logtype.busi;
+package com.xcooper.sys.log.busi;
 
 import com.pabula.fw.exception.DataAccessException;
-import com.xcooper.sys.log.logtype.dao.LogTypeDAO;
-import com.xcooper.sys.log.logtype.vo.LogTypeVO;
+import com.xcooper.sys.log.dao.LogTypeDAO;
+import com.xcooper.sys.log.vo.LogTypeVO;
 import org.apache.log4j.Logger;
 
 import java.util.Collection;

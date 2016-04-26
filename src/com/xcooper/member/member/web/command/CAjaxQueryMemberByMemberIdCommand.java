@@ -10,7 +10,6 @@ import com.pabula.fw.exception.SysException;
 import com.pabula.fw.utility.Command;
 import com.pabula.fw.utility.RequestHelper;
 import com.pabula.fw.utility.VO;
-import com.xcooper.list.busi.ListBean;
 import com.xcooper.member.member.busi.MemberBean;
 
 import javax.servlet.ServletException;
@@ -20,30 +19,18 @@ import java.util.Collection;
 /**
  * Created by zdk on 2016.4.17.
  */
-public class CAjaxQueryMemberByProjectIdCommand implements Command {
+public class CAjaxQueryMemberByMemberIdCommand implements Command {
 
     @Override
     public String execute(RequestHelper helper, HttpServletRequest request) throws ServletException, BusinessRuleException, DataAccessException, SysException {
 
         MemberBean memberBean = new MemberBean();
 
-        int projectId = StrUtil.getNotNullIntValue(request.getParameter("projectId"), 0);
-
-        if (projectId == 0) {
-            return JsonResultUtil.error();
-        }
-
+        int memberId= StrUtil.getNotNullIntValue(request.getParameter("memberId"), 0);
 
         try {
-            Collection list = memberBean.getMemberColl("select * from member where project_id = " + projectId);
+            Collection list = memberBean.getMemberColl("select * from member where member_id = " + memberId );
 
-            //返回查询的所有json数据
-            //判断如果查询不到数据(list.size<=0),则报错
-            if (list.size() <= 0) {
-                return JsonResultUtil.instance().
-                        addMsg("该projectId下找不到内容").addData("projectId=" + projectId)
-                        .addCode(JsonResultUtil.ERROR).json();
-            }
             return JsonResultUtil.instance().addData(list).json();
         } catch (DataAccessException e) {
             return JsonResultUtil.instance().

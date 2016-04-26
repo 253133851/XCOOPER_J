@@ -1,4 +1,4 @@
-package com.xcooper.sys.log.logtype.vo;
+package com.xcooper.sys.log.vo;
 
 import com.pabula.fw.utility.VO;
 
