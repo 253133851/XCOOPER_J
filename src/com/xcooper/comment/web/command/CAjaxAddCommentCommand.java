@@ -33,10 +33,10 @@ public class CAjaxAddCommentCommand implements Command {
         commentVO.setCOMMENT_ID(SeqNumHelper.getNewSeqNum("comment"));
 
         //插入任务/话题id aimId
-        commentVO.setAIM_ID(StrUtil.getNotNullIntValue(request.getParameter("aimId"),0));
+        commentVO.setAIM_ID(StrUtil.getNotNullIntValue(request.getParameter("aimId"), 0));
 
         //评论人id commentId
-        commentVO.setCOMMENT_ID(StrUtil.getNotNullIntValue(request.getParameter("commentId"),0));
+        commentVO.setCOMMENT_MEMBER_ID(StrUtil.getNotNullIntValue(request.getParameter("commentMemberId"), 0));
 
         //讨论标题 commentTitle
         //request.getParameter("xxx")  插入字符串
@@ -46,23 +46,23 @@ public class CAjaxAddCommentCommand implements Command {
         commentVO.setCOMMENT(request.getParameter("comment"));
 
         //类型 type
-        commentVO.setTYPE(StrUtil.getNotNullIntValue(request.getParameter("type"),0));
+        commentVO.setTYPE(StrUtil.getNotNullIntValue(request.getParameter("type"), 0));
 
         //通知目标 targetId
         commentVO.setTARGET_ID(request.getParameter("targetId"));
 
         //访客是否可见 isShow
-        commentVO.setIS_SHOW(StrUtil.getNotNullIntValue(request.getParameter("isShow"),0));
+        commentVO.setIS_SHOW(StrUtil.getNotNullIntValue(request.getParameter("isShow"), 0));
 
         //是否结束 isDown
-        commentVO.setIS_DONE(StrUtil.getNotNullIntValue(request.getParameter("isDown"),0));
+        commentVO.setIS_DONE(StrUtil.getNotNullIntValue(request.getParameter("isDown"), 0));
 
         //排序值 orderNum
-        commentVO.setORDER_NUM(StrUtil.getNotNullIntValue(request.getParameter("orderNum"),0));
+        commentVO.setORDER_NUM(StrUtil.getNotNullIntValue(request.getParameter("orderNum"), 0));
 
         try {
             commentBean.addComment(commentVO);
-            return JsonResultUtil.instance().ok();
+            return JsonResultUtil.instance().addData(commentVO.getCOMMENT_ID()).addCode(JsonResultUtil.OK).addMsg("添加成功").json();
         } catch (DataAccessException e) {
             return JsonResultUtil.instance().
                     addMsg(e.getMessage())

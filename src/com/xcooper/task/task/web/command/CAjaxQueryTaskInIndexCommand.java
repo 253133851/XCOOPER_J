@@ -10,6 +10,7 @@ import com.pabula.fw.exception.SysException;
 import com.pabula.fw.utility.Command;
 import com.pabula.fw.utility.RequestHelper;
 import com.pabula.fw.utility.VO;
+import com.xcooper.comment.busi.CommentBean;
 import com.xcooper.member.member.busi.MemberBean;
 import com.xcooper.project.project.busi.ProjectBean;
 import com.xcooper.sys.user.user.busi.UserBean;
@@ -52,13 +53,17 @@ public class CAjaxQueryTaskInIndexCommand implements Command {
             //返回 表USER的所有数据
             Collection memberList = new MemberBean().getMemberColl("select * from  member ");
 
+            //返回 表COMMENT的所有数据
+            Collection commentList = new CommentBean().getCommentColl("select * from  comment ");
+
             //返回查询的所有json数据
             if (myTaskList.size() <= 0) {
                 return JsonResultUtil.instance().
                         addMsg("找不到内容")
                         .addCode(JsonResultUtil.ERROR).json();
             }
-            return JsonResultUtil.instance().addExtraData(new Object[]{myTaskList, myCreateTaskList, myFocusTaskList, projectList, memberList}).json();
+
+            return JsonResultUtil.instance().addExtraData(new Object[]{myTaskList, myCreateTaskList, myFocusTaskList, projectList, memberList, commentList}).json();
 
         } catch (DataAccessException e) {
             return JsonResultUtil.instance().
