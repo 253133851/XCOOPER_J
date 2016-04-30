@@ -10,7 +10,7 @@ import java.sql.*;
  * SQL 方言	Oracle 9i
  *
  * @author Dekn
- * www.cms4j.com	Nov 21, 2006 1:46:16 AM
+ *         www.cms4j.com	Nov 21, 2006 1:46:16 AM
  */
 public class MysqlDialect extends Dialect {
 
@@ -132,25 +132,23 @@ public class MysqlDialect extends Dialect {
 
     /**
      * 根据SQL删除记录
+     *
      * @param sql
      * @throws DataAccessException
      * @author zdk 2016-03-28 19:38:42
      */
-    public static void deleteColl(String sql)throws DataAccessException{
-
-        Connection conn=null;
-        Statement stmt=null;
-        ResultSet rs=null;
+    public static void deleteColl(String sql) throws DataAccessException {
+        Connection conn = null;
+        Statement stmt = null;
         try {
-            conn= ResourceManager.getConnection();
-            stmt=conn.createStatement();
-            rs=stmt.executeQuery(sql);
+            conn = ResourceManager.getConnection();
+            stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
 
         } catch (SQLException e) {
             e.printStackTrace();
             throw new DataAccessException("DAO　Layer: 获得任务检查项集合", e);
-        }finally{
-            ResourceManager.close(rs);
+        } finally {
             ResourceManager.close(stmt);
             ResourceManager.close(conn);
         }
