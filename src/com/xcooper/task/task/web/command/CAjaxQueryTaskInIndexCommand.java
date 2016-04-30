@@ -38,8 +38,7 @@ public class CAjaxQueryTaskInIndexCommand implements Command {
         try {
             //返回 我负责的任务
             Collection myTaskList = taskBean.getTaskColl
-                    ("select * from task left join member_task on task.task_id = member_task.task_id " +
-                            "where exe_id = " + memberId);
+                    ("select * from task where exe_id = " + memberId);
             //返回 我创建的任务
             Collection myCreateTaskList = taskBean.getTaskColl("select * from task where create_id =" + memberId);
 
