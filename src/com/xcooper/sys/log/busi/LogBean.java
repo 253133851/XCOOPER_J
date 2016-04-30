@@ -1,6 +1,7 @@
 package com.xcooper.sys.log.busi;
 
 import com.pabula.common.util.DateUtil;
+import com.pabula.common.util.SeqNumHelper;
 import com.pabula.fw.exception.DataAccessException;
 import com.xcooper.sys.log.dao.LogDAO;
 import com.xcooper.sys.log.vo.LogVO;
@@ -29,6 +30,7 @@ public class LogBean {
 	 * @author zdk 2016-03-28 19:40:04
 	 */
 	public void addLog(LogVO VO)throws DataAccessException{
+		VO.setLOG_ID(SeqNumHelper.getNewSeqNum("log"));
 		VO.setADD_DATETIME(DateUtil.getCurrTime());
 		dao.addLog(VO);
 	}

@@ -70,12 +70,12 @@ public class CAjaxAddTaskCommand implements Command {
         taskVO.setTASK_INFO(request.getParameter("taskInfo"));
 
         //添加操作日志
-        LogUtil.operaLog(taskVO.getCREATE_ID(), OperaType.ADD, LogType.TASK,taskVO.getTASK_ID(),taskVO.getTASK_NAME());
+        LogUtil.operaLog(taskVO.getCREATE_ID(), OperaType.ADD, LogType.TASK, taskVO.getTASK_ID(), taskVO.getTASK_NAME());
 
         //添加关注人 focusIds
         String focusIds = request.getParameter("focusIds");
 
-        String[] focusArray = focusIds.split(".,") ;
+        String[] focusArray = focusIds.split(".,");
 
         for (int i = 0; i < focusArray.length; i++) {
             MemberTaskVO memberTaskVO = new MemberTaskVO();
@@ -86,7 +86,7 @@ public class CAjaxAddTaskCommand implements Command {
             memberTaskVO.setTASK_ID(taskVO.getTASK_ID());
 
             //插入关注人id
-            memberTaskVO.setMEMBER_ID(StrUtil.getNotNullIntValue(focusArray[i],0));
+            memberTaskVO.setMEMBER_ID(StrUtil.getNotNullIntValue(focusArray[i], 0));
 
             //设置为关注
             memberTaskVO.setIS_FOCUS(1);
@@ -100,8 +100,7 @@ public class CAjaxAddTaskCommand implements Command {
 
         TaskCheckItemVO taskCheckItemVO = new TaskCheckItemVO();
 
-        for (int i = 0; i <itemNamesArray.length ; i++) {
-
+        for (int i = 0; i < itemNamesArray.length; i++) {
 
             taskCheckItemVO.setID(SeqNumHelper.getNewSeqNum("task_check_item"));
 
@@ -115,10 +114,11 @@ public class CAjaxAddTaskCommand implements Command {
 
             taskCheckItemBean.addTaskCheckItem(taskCheckItemVO);
         }
+
         try {
-            Collection taskCheckItemList = taskCheckItemBean.getTaskCheckItemColl("select * form task_check_item where task_id = "+ taskVO.getTASK_ID());
+            Collection taskCheckItemList = taskCheckItemBean.getTaskCheckItemColl("select * from task_check_item where task_id = " + taskVO.getTASK_ID());
             taskBean.addTask(taskVO);
-            return JsonResultUtil.instance().addData(taskVO).addExtraData(new Object[]{taskCheckItemList} ).ok();
+            return JsonResultUtil.instance().addData(taskVO).addExtraData(new Object[]{taskCheckItemList}).ok();
         } catch (DataAccessException e) {
             return JsonResultUtil.instance().
                     addMsg(e.getMessage())
