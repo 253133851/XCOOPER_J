@@ -31,16 +31,12 @@ public class CAjaxAddMemberTaskCommand implements Command {
         MemberTaskBean memberTaskBean = new MemberTaskBean();
 
         MemberTaskVO memberTaskVO = new MemberTaskVO();
-
         //SeqNumHelper.getNewSeqNum("xxxx") 像VO对象中插入可用ID
         memberTaskVO.setID(SeqNumHelper.getNewSeqNum("member_task"));
-
         //添加 memberId
         memberTaskVO.setMEMBER_ID(StrUtil.getNotNullIntValue(request.getParameter("memberId"), 0));
-
         //添加 taskId
         memberTaskVO.setTASK_ID(StrUtil.getNotNullIntValue(request.getParameter("taskId"), 0));
-
         //添加是否关注 isFocus
         int isfocus = StrUtil.getNotNullIntValue(request.getParameter("isFocus"), 0);
         if (isfocus != 1) {
@@ -58,26 +54,11 @@ public class CAjaxAddMemberTaskCommand implements Command {
                     .addCode(JsonResultUtil.ERROR).json();
         }
 
-//        返回error
-//        JsonResultUtil.instance().error();
-//        返回ok
-//        JsonResultUtil.instance().ok();
-//        返回带参数的json
-//        JsonResultUtil.instance()
-//                .addMsg(e.getMessage()).
-//                addCode(JsonResultUtil.OK)
-//                .addData("xxx")
-//                .json();
     }
 
-    //项目id
-    int projectId;
 
     @Override
     public void validate(HttpServletRequest request, VO vo, ValidateUtil validate) throws RuleException {
-        projectId = StrUtil.getNotNullIntValue(request.getParameter("projectId"), 0);
-        if (projectId == 0) {
-            validate.addError("项目id错误");
-        }
+
     }
 }
