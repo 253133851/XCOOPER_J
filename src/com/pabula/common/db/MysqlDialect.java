@@ -1,8 +1,10 @@
 package com.pabula.common.db;
 
 import com.pabula.common.util.DateUtil;
+import com.pabula.common.util.ResourceManager;
+import com.pabula.fw.exception.DataAccessException;
 
-import java.sql.Timestamp;
+import java.sql.*;
 
 /**
  * SQL 方言	Oracle 9i
@@ -126,6 +128,32 @@ public class MysqlDialect extends Dialect {
      */
     public String functionRandomByOrder() {
         return "rand()";
+    }
+
+    /**
+     * 根据SQL删除记录
+     * @param sql
+     * @throws DataAccessException
+     * @author zdk 2016-03-28 19:38:42
+     */
+    public static void deleteColl(String sql)throws DataAccessException{
+
+        Connection conn=null;
+        Statement stmt=null;
+        ResultSet rs=null;
+        try {
+            conn= ResourceManager.getConnection();
+            stmt=conn.createStatement();
+            rs=stmt.executeQuery(sql);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DataAccessException("DAO　Layer: 获得任务检查项集合", e);
+        }finally{
+            ResourceManager.close(rs);
+            ResourceManager.close(stmt);
+            ResourceManager.close(conn);
+        }
     }
 
 }

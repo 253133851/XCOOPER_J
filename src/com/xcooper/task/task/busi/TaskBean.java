@@ -75,6 +75,16 @@ public class TaskBean {
 	}
 
 	/**
+	 * 根据SQL删除
+	 * @param sql
+	 * @throws DataAccessException
+	 * @author zdk 2016-03-28 19:34:51
+	 */
+	public Collection deleteT(String sql)throws DataAccessException{
+		return dao.getTaskColl(sql,false);
+	}
+
+	/**
 	 * 根据SQL获取任务集合,关联了member_task表之后
 	 * @param sql
 	 * @throws DataAccessException

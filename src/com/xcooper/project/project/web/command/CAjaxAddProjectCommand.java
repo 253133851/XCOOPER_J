@@ -79,7 +79,7 @@ public class CAjaxAddProjectCommand implements Command {
 
         try {
             projectBean.addProject(projectVO);
-            return JsonResultUtil.instance().ok();
+            return JsonResultUtil.instance().addData(projectVO).addExtraData(new Object[]{"所有该项目的成员信息"}).ok();
         } catch (DataAccessException e) {
             return JsonResultUtil.instance().
                     addMsg(e.getMessage())

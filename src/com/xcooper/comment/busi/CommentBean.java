@@ -61,6 +61,17 @@ public class CommentBean {
     }
 
     /**
+     * 根据 AIM_ID 删除讨论
+     *
+     * @param AIM_ID
+     * @throws DataAccessException
+     * @author zdk 2016-04-30
+     */
+    public void delCommentByAimId(int AIM_ID,int TYPE) throws DataAccessException {
+        dao.delCommentByAimId(AIM_ID,TYPE);
+    }
+
+    /**
      * 批量删除讨论
      *
      * @param coll 主键集合，多个主键之间用半角逗号隔开
@@ -92,4 +103,5 @@ public class CommentBean {
     public CommentVO getCommentByID(int COMMENT_ID) throws DataAccessException {
         return dao.getCommentByID(COMMENT_ID);
     }
+
 }

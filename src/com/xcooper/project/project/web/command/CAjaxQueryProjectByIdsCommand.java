@@ -1,4 +1,4 @@
-package com.xcooper.task.task.web.command;
+package com.xcooper.project.project.web.command;
 
 import com.pabula.common.util.JsonResultUtil;
 import com.pabula.common.util.StrUtil;
@@ -10,54 +10,44 @@ import com.pabula.fw.exception.SysException;
 import com.pabula.fw.utility.Command;
 import com.pabula.fw.utility.RequestHelper;
 import com.pabula.fw.utility.VO;
-import com.xcooper.comment.busi.CommentBean;
-import com.xcooper.list.busi.ListBean;
-import com.xcooper.member.merbertask.busi.MemberTaskBean;
+import com.xcooper.member.member.busi.MemberBean;
+import com.xcooper.project.project.busi.ProjectBean;
 import com.xcooper.task.task.busi.TaskBean;
-import com.xcooper.task.taskcheckitem.busi.TaskCheckItemBean;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
- * Created by zdk on 2016.4.17.
+ * Created by zdk on 2016.4.19.
  */
-public class CAjaxDeleteTaskCommand implements Command {
+public class CAjaxQueryProjectByIdsCommand implements Command {
 
     @Override
     public String execute(RequestHelper helper, HttpServletRequest request) throws ServletException, BusinessRuleException, DataAccessException, SysException {
 
-
-        int id = StrUtil.getNotNullIntValue(request.getParameter("id"), 0);
-
         TaskBean taskBean = new TaskBean();
 
-        //删除检查项记录
-        TaskCheckItemBean taskCheckItemBean = new TaskCheckItemBean();
+        MemberBean memberBean = new MemberBean();
 
-        //成员任务表记录
-        MemberTaskBean memberTaskBean = new MemberTaskBean();
+        String projectIds = request.getParameter("projectIds");
 
-        //删除讨论记录
-        CommentBean commentBean = new CommentBean();
+        String[] projectIdsArray = projectIds.split(".,");
 
         try {
-            //删除该id的记录
-            taskBean.delTask(id);
+            Collection taskList = taskBean.getTaskColl("select * from task where project_id in (" + projectIds +")");
 
-            taskCheckItemBean.delTaskCheckItemByTaskId(id);
 
-            memberTaskBean.delMemberTaskByTaskId(id);
-            //删除任务讨论 type:1
-            commentBean.delCommentByAimId(id,1);
 
-            return JsonResultUtil.instance().ok();
+            //返回查询的所有json数据
+
+            return JsonResultUtil.instance().addData(taskList).addExtraData(new Object[]{"所有在projectIds里面的任务的讨论数据"}).json();
         } catch (DataAccessException e) {
             return JsonResultUtil.instance().
                     addMsg(e.getMessage())
                     .addCode(JsonResultUtil.ERROR).json();
         }
-
     }
 
     @Override

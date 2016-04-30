@@ -1,6 +1,8 @@
 package com.xcooper.task.task.web.command;
 
+import com.pabula.common.db.MysqlDialect;
 import com.pabula.common.util.JsonResultUtil;
+import com.pabula.common.util.SeqNumHelper;
 import com.pabula.common.util.StrUtil;
 import com.pabula.common.util.ValidateUtil;
 import com.pabula.fw.exception.BusinessRuleException;
@@ -14,10 +16,13 @@ import com.xcooper.list.busi.ListBean;
 import com.xcooper.list.vo.ListVO;
 import com.xcooper.task.task.busi.TaskBean;
 import com.xcooper.task.task.vo.TaskVO;
+import com.xcooper.task.taskcheckitem.busi.TaskCheckItemBean;
+import com.xcooper.task.taskcheckitem.vo.TaskCheckItemVO;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
+import java.util.Collection;
 
 /**
  * Created by zdk on 2016.4.17.
@@ -53,12 +58,38 @@ public class CAjaxUpdateTaskCommand implements Command {
         //修改所属项目 projectId
         taskVO.setPROJECT_ID(StrUtil.getNotNullIntValue(request.getParameter("projectId"),0));
 
+        //修改检查项
+        TaskCheckItemBean taskCheckItemBean = new TaskCheckItemBean();
+        TaskCheckItemVO taskCheckItemVO = new TaskCheckItemVO();
+
+        String itemNames = request.getParameter("itemNames");
+        String itemIsDones = request.getParameter("itemIsDones");
+
+        String[] itemNamesArray = itemNames.split(".,");
+        String[] itemIsDonesArray = itemIsDones.split(".,");
+
+        MysqlDialect.deleteColl("delete from task_check_item where task_id = " + taskVO.getTASK_ID());
+
+        for (int i = 0; i <itemNamesArray.length ; i++) {
+
+            taskCheckItemVO.setID(SeqNumHelper.getNewSeqNum("task_check_item"));
+
+            taskCheckItemVO.setITEM_NAME(itemIsDonesArray[i]);
+
+            taskCheckItemVO.setTASK_ID(taskVO.getTASK_ID());
+
+            taskCheckItemVO.setIS_DONE(StrUtil.getNotNullIntValue(itemIsDonesArray[i],0));
+
+            taskCheckItemBean.addTaskCheckItem(taskCheckItemVO);
+        }
+
         //执行修改
         taskBean.modifyTask(taskVO);
 
         //返回ok
+        Collection taskCheckItemList = taskCheckItemBean.getTaskCheckItemColl("select * form task_check_item where task_id = "+ taskVO.getTASK_ID());
 
-        return JsonResultUtil.instance().ok();
+        return JsonResultUtil.instance().addData(taskVO).addExtraData(new Object[]{taskCheckItemList}).ok();
     }
 
     @Override

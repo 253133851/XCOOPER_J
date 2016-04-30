@@ -1,5 +1,6 @@
 package com.xcooper.project.project.web.command;
 
+import com.pabula.common.db.MysqlDialect;
 import com.pabula.common.util.JsonResultUtil;
 import com.pabula.common.util.SeqNumHelper;
 import com.pabula.common.util.StrUtil;
@@ -56,6 +57,8 @@ public class CAjaxUpdateProjectCommand implements Command {
         //循环插入 memberId 到 Project_Member表中
         String memberIds = request.getParameter("memberIds");
 
+        MysqlDialect.deleteColl("delete * from project_member where member_id in(" + memberIds +")");
+
         String[] memberIdArray=memberIds.split(",");
 
         for (int i = 0; i < memberIdArray.length; i++) {
@@ -73,7 +76,7 @@ public class CAjaxUpdateProjectCommand implements Command {
 
             projectMemberBean.addProjectMember(projectMemberVO);
 
-            projectMemberBean.modifyProjectMember(projectMemberVO);
+            //projectMemberBean.modifyProjectMember(projectMemberVO);
         }
 
 
@@ -83,7 +86,7 @@ public class CAjaxUpdateProjectCommand implements Command {
 
         //返回ok
 
-        return JsonResultUtil.instance().ok();
+        return JsonResultUtil.instance().addData(projectVO).ok();
     }
 
     @Override

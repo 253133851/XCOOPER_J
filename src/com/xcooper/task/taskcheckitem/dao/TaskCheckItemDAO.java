@@ -94,6 +94,27 @@ public class TaskCheckItemDAO {
 	}
 
 	/**
+	 * 根据 TASK_ID 删除任务检查项
+	 * @param TASK_ID
+	 * @throws DataAccessException
+	 * @author zdk 2016-04-30 19:38:42
+	 */
+	public void delTaskCheckItemByTaskId (int TASK_ID)throws DataAccessException{
+
+		try {
+			SqlHelper sh = new SqlHelper();
+
+			sh.setTable("TASK_CHECK_ITEM");
+
+			sh.setWhereForInt("TASK_ID", " = ", TASK_ID);//ID
+
+			sh.delete(ResourceManager.getConnection(),"根据 TASK_ID删除任务检查项");
+		} catch (SQLException e) {
+			throw new DataAccessException(e);
+		}
+	}
+
+	/**
 	 * 批量删除任务检查项
 	 * @param coll 主键集合，多个主键之间用半角逗号隔开
 	 * @throws DataAccessException
@@ -173,6 +194,8 @@ public class TaskCheckItemDAO {
 		}
 		return resultList;
 	}
+
+
 
 	/**
 	 * 根据ID取其VO

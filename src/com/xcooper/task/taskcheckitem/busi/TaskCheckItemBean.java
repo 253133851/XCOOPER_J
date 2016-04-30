@@ -52,6 +52,15 @@ public class TaskCheckItemBean {
 	}
 
 	/**
+	 * 根据 TASK_ID 删除任务检查项
+	 * @param TASK_ID
+	 * @throws DataAccessException
+	 * @authuor zdk 2016-04-30
+     */
+	public void  delTaskCheckItemByTaskId(int TASK_ID) throws DataAccessException{
+		dao.delTaskCheckItemByTaskId(TASK_ID);
+	}
+	/**
 	 * 批量删除任务检查项
 	 * @param coll 主键集合，多个主键之间用半角逗号隔开
 	 * @throws DataAccessException

@@ -1,5 +1,6 @@
 package com.xcooper.comment.dao;
 
+import com.pabula.common.db.MysqlDialect;
 import com.pabula.common.db.SqlHelper;
 import com.pabula.common.util.DateUtil;
 import com.pabula.common.util.ResourceManager;
@@ -112,6 +113,19 @@ public class CommentDAO {
         } catch (SQLException e) {
             throw new DataAccessException(e);
         }
+    }
+
+    /**
+     * 根据 AIM_ID 删除讨论
+     *
+     * @param AIM_ID
+     * @throws DataAccessException
+     * @author zdk 2016-03-28 19:33:56
+     */
+    public void delCommentByAimId(int AIM_ID,int TYPE) throws DataAccessException {
+
+        //TYPE: 任务讨论:1 话题讨论:2
+        MysqlDialect.deleteColl("delete from comment where aim_id = " + AIM_ID + " and type = " + TYPE);
     }
 
     /**

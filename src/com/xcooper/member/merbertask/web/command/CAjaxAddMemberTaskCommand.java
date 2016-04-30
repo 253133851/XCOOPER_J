@@ -1,5 +1,6 @@
 package com.xcooper.member.merbertask.web.command;
 
+import com.pabula.common.db.MysqlDialect;
 import com.pabula.common.util.JsonResultUtil;
 import com.pabula.common.util.SeqNumHelper;
 import com.pabula.common.util.StrUtil;
@@ -35,13 +36,18 @@ public class CAjaxAddMemberTaskCommand implements Command {
         memberTaskVO.setID(SeqNumHelper.getNewSeqNum("member_task"));
 
         //添加 memberId
-        memberTaskVO.setMEMBER_ID(StrUtil.getNotNullIntValue(request.getParameter("memberId"),0));
+        memberTaskVO.setMEMBER_ID(StrUtil.getNotNullIntValue(request.getParameter("memberId"), 0));
 
         //添加 taskId
-        memberTaskVO.setTASK_ID(StrUtil.getNotNullIntValue(request.getParameter("taskId"),0));
+        memberTaskVO.setTASK_ID(StrUtil.getNotNullIntValue(request.getParameter("taskId"), 0));
 
         //添加是否关注 isFocus
-        memberTaskVO.setIS_FOCUS(StrUtil.getNotNullIntValue(request.getParameter("isFocus"),0));
+        int isfocus = StrUtil.getNotNullIntValue(request.getParameter("isFocus"), 0);
+        if (isfocus != 1) {
+            MysqlDialect.deleteColl("delete from member_task where member_id = " + memberTaskVO.getMEMBER_ID() + " and task_id = " + memberTaskVO.getTASK_ID());
+        } else {
+            memberTaskVO.setIS_FOCUS(StrUtil.getNotNullIntValue(request.getParameter("isFocus"), 0));
+        }
 
         try {
             memberTaskBean.addMemberTask(memberTaskVO);

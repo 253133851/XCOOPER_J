@@ -55,6 +55,16 @@ public class MemberTaskBean {
 	}
 
 	/**
+	 * 根据 TASK_ID 删除成员任务
+	 * @param TASK_ID
+	 * @throws DataAccessException
+	 * @author zdk 2016-04-30
+	 */
+	public void delMemberTaskByTaskId(int TASK_ID)throws DataAccessException{
+		dao.delMemberTaskByTaskId(TASK_ID);
+	}
+
+	/**
 	 * 批量删除成员任务
 	 * @param coll 主键集合，多个主键之间用半角逗号隔开
 	 * @throws DataAccessException
