@@ -1,208 +1,221 @@
 /*
- * ´´½¨ÓÚ 2004-11-7 22:03:12
+ * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 2004-11-7 22:03:12
  * JCMS
  */
 package com.pabula.common.util;
+
 import java.util.ArrayList;
 
 /**
  * @author Dekn
- * 
- * Êý¾Ý¼ìÑéÀà£¬²¢ÇÒ¿ÉÒÔ¹¹Ôì´íÎóÏûÏ¢LIST
- * 
- * JCMS ( Content Manager System for java )
+ *         <p/>
+ *         ï¿½ï¿½Ý¼ï¿½ï¿½ï¿½ï¿½à£¬ï¿½ï¿½ï¿½Ò¿ï¿½ï¿½Ô¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢LIST
+ *         <p/>
+ *         JCMS ( Content Manager System for java )
  */
 public class ValidateUtil {
-    
+
     ArrayList errorList;
-    
-    public ValidateUtil(){
+
+    public ValidateUtil() {
         errorList = new ArrayList();
         this.clear();
     }
-    
+
     /**
-     * ÊÇ·ñÎªNULL
-     * @param data¡¡Òª¼ì²éµÄÊý¾Ý
+     * ï¿½Ç·ï¿½ÎªNULL
+     *
+     * @param dataï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
      * @return
      */
-    public boolean isNull(String data){
+    public boolean isNull(String data) {
         boolean isNull = false;
-        if(data == null){
+        if (data == null) {
             isNull = true;
         }
         return isNull;
     }
-    
+
     /**
-     * ÊÇ·ñÎª¿Õ
+     * ï¿½Ç·ï¿½Îªï¿½ï¿½
+     *
      * @param data
      * @return
      */
-    public boolean isEmpty(String data){
+    public boolean isEmpty(String data) {
         boolean isNull = false;
-        if(data.equals("")){
+        if (data.equals("")) {
             isNull = true;
         }
         return isNull;
     }
-    
+
     /**
-     * ÊÇ·ñÎª¿Õ»òNULL
+     * ï¿½Ç·ï¿½Îªï¿½Õ»ï¿½NULL
+     *
      * @param data
      * @return
      */
-    public boolean isEmptyOrNull(String data){
+    public boolean isEmptyOrNull(String data) {
         boolean isNull = false;
-        if(data == null || data.trim().equals("")){
+        if (data == null || data.trim().equals("")) {
             isNull = true;
         }
         return isNull;
     }
-    
-    
+
+
     /**
-     * ¼ìÑéÊÇ·ñÎªNULL£¬²¢ÇÒÌá¹©´íÎóÐÅÏ¢
-     * @param data¡¡Òª¼ì²éµÄÊý¾Ý
-     * @param errMsg¡¡Èç¹ûÎª¿ÕÊ±£¬ÌáÊ¾µÄ´íÎóÐÅÏ¢
+     * ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ÎªNULLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á¹©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+     *
+     * @param dataï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * @param errMsgï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
      * @return
      */
-    public String validateIsNull(String data,String errMsg){
+    public String validateIsNull(String data, String errMsg) {
         boolean isNull = this.isNull(data);
-        if(isNull){
-            if (errMsg != null || !errMsg.equals("")){
+        if (isNull) {
+            if (errMsg != null || !errMsg.equals("")) {
                 this.errorList.add(errMsg);
             }
         }
-        return data; 
+        return data;
     }
-    
+
     /**
-     * ¼ìÑéÊÇ·ñÎª¿Õ£¬²¢ÇÒÌá¹©´íÎóÐÅÏ¢
-     * @param data¡¡Òª¼ì²éµÄÊý¾Ý
-     * @param errMsg¡¡Èç¹ûÎª¿ÕÊ±£¬ÌáÊ¾µÄ´íÎóÐÅÏ¢
-     * @return
-     */    
-    public String validateIsEmpty(String data,String errMsg){
-        boolean isEmpty = this.isEmpty(data);
-        if(isEmpty){
-            if (errMsg != null || !errMsg.equals("")){
-                this.errorList.add(errMsg);
-            }
-        }
-        return data; 
-    }
-    
-    
-    /**
-     * ¼ìÑéÊÇ·ñÎªNULL»ò¿Õ£¬²¢ÇÒÌá¹©´íÎóÐÅÏ¢
-     * @param data¡¡Òª¼ì²éµÄÊý¾Ý
-     * @param errMsg¡¡Èç¹ûÎª¿ÕÊ±£¬ÌáÊ¾µÄ´íÎóÐÅÏ¢
-     * @return
-     */   
-    public String validateIsEmptyOrNull(String data,String errMsg){
-        boolean isEmptyOrNull = this.isEmptyOrNull(data);
-        if(isEmptyOrNull){
-            if (errMsg != null || !errMsg.equals("")){
-                this.errorList.add(errMsg);
-            }
-        }
-        return data; 
-    }
-    
-    /**
-     * ¼ìÑéÊý¾ÝÊÇ²»ÊÇÊý×Ö
-     * @param data Òª¼ìÑéµÄÊý¾Ý
-     * @param errMsg Èç¹û²»ÊÇÊý×Ö£¬Ìá¹©µÄ´íÎóÐÅÏ¢
+     * ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Îªï¿½Õ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á¹©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+     *
+     * @param dataï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * @param errMsgï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
      * @return
      */
-    public int validateIsNumber(String data,String errMsg){
+    public String validateIsEmpty(String data, String errMsg) {
+        boolean isEmpty = this.isEmpty(data);
+        if (isEmpty) {
+            if (errMsg != null || !errMsg.equals("")) {
+                this.errorList.add(errMsg);
+            }
+        }
+        return data;
+    }
+
+
+    /**
+     * ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ÎªNULLï¿½ï¿½Õ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á¹©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+     *
+     * @param dataï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * @param errMsgï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+     * @return
+     */
+    public String validateIsEmptyOrNull(String data, String errMsg) {
+        boolean isEmptyOrNull = this.isEmptyOrNull(data);
+        if (isEmptyOrNull) {
+            if (errMsg != null || !errMsg.equals("")) {
+                this.errorList.add(errMsg);
+            }
+        }
+        return data;
+    }
+
+    /**
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *
+     * @param data   Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * @param errMsg ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö£ï¿½ï¿½á¹©ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+     * @return
+     */
+    public int validateIsNumber(String data, String errMsg) {
         int number = 0;
-        
+
         try {
-            number = Integer.parseInt(data); 	
+            number = Integer.parseInt(data);
             //if (number < 0){
             //    this.errorList.add(errMsg);
-           // }
-        }catch (NumberFormatException e){
+            // }
+        } catch (NumberFormatException e) {
             this.errorList.add(errMsg);
         }
 
         return number;
     }
-    
+
     /**
-     * ¼ìÑéÊý¾ÝÊÇ²»ÊÇ´óÓÚÖ¸¶¨µÄÊý
-     * @param data Òª¼ìÑéµÄÊý¾Ý
-     * @param errMsg Èç¹û´óÓÚÊý×Ö£¬Ìá¹©µÄ´íÎóÐÅÏ¢
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç²ï¿½ï¿½Ç´ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *
+     * @param data   Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * @param errMsg ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö£ï¿½ï¿½á¹©ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
      * @return
      */
-    public int validateMore(String data,int more,String errMsg){
+    public int validateMore(String data, int more, String errMsg) {
         int number = 0;
-        
+
         try {
-            number = Integer.parseInt(data); 	
-            if (number > more){
+            number = Integer.parseInt(data);
+            if (number > more) {
                 this.errorList.add(errMsg);
             }
-        }catch (NumberFormatException e){            
+        } catch (NumberFormatException e) {
         }
 
         return number;
     }
-    
+
     /**
-     * ¼ìÑéÊý¾ÝÊÇ²»ÊÇ´óÓÚÖ¸¶¨µÄÊý
-     * @param data Òª¼ìÑéµÄÊý¾Ý
-     * @param errMsg Èç¹û´óÓÚÊý×Ö£¬Ìá¹©µÄ´íÎóÐÅÏ¢
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç²ï¿½ï¿½Ç´ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *
+     * @param data   Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     * @param errMsg ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö£ï¿½ï¿½á¹©ï¿½Ä´ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
      * @return
      */
-    public int validateLess(String data,int less,String errMsg){
+    public int validateLess(String data, int less, String errMsg) {
         int number = 0;
-        
+
         try {
-            number = Integer.parseInt(data); 	
-            if (number < less){
+            number = Integer.parseInt(data);
+            if (number < less) {
                 this.errorList.add(errMsg);
             }
-        }catch (NumberFormatException e){            
+        } catch (NumberFormatException e) {
         }
 
         return number;
     }
-    
+
     /**
-     * ÊÇ·ñÓÐ´íÎó²úÉú
+     * ï¿½Ç·ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+     *
      * @return
      */
-    public boolean hasError(){
+    public boolean hasError() {
         if (errorList.size() > 0) {
             return true;
         } else {
             return false;
         }
     }
-    
+
     /**
-     * Ïò´íÎólistÖÐÌí¼ÓÒ»¸ö´íÎóÐÅÏ¢
-     * @param errMsg ´ýÌí¼ÓµÄ´íÎóÐÅÏ¢
+     * ï¿½ï¿½ï¿½ï¿½ï¿½listï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+     *
+     * @param errMsg ï¿½ï¿½ï¿½ï¿½ÓµÄ´ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
      * @return
      */
-    public boolean addError(String errMsg){
-        return this.errorList.add(errMsg);
+    public boolean addError(String errMsg) {
+        return this.errorList.add(JsonResultUtil.instance().addMsg(errMsg).addCode(JsonResultUtil.ERROR).addData("").json());
     }
-    
+
     /**
-     * È¡µÃ²úÉúµÄËùÓÐ´íÎó
+     * È¡ï¿½Ã²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½ï¿½ï¿½
+     *
      * @return
      */
-    public ArrayList getErrors(){
+    public ArrayList getErrors() {
         return this.errorList;
     }
-    
-    public void clear(){
+
+    public void clear() {
         this.errorList.clear();
     }
-    
-    
+
+
 }
