@@ -93,7 +93,7 @@ public class CAjaxAddTaskCommand implements Command {
 
             memberTaskBean.addMemberTask(memberTaskVO);
         }
-        //添加检查项 itemIds
+        //添加检查项 itemNames
         String itemNames = request.getParameter("itemNames");
 
         String[] itemNamesArray = itemNames.split(".,");
@@ -118,7 +118,7 @@ public class CAjaxAddTaskCommand implements Command {
         try {
             Collection taskCheckItemList = taskCheckItemBean.getTaskCheckItemColl("select * from task_check_item where task_id = " + taskVO.getTASK_ID());
             taskBean.addTask(taskVO);
-            return JsonResultUtil.instance().addData(taskVO).addExtraData(new Object[]{taskCheckItemList}).ok();
+            return JsonResultUtil.instance().addData(taskVO).addExtraData(new Object[]{taskCheckItemList}).json();
         } catch (DataAccessException e) {
             return JsonResultUtil.instance().
                     addMsg(e.getMessage())

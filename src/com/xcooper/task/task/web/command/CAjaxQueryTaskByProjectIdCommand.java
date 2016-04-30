@@ -39,7 +39,7 @@ public class CAjaxQueryTaskByProjectIdCommand implements Command {
 
             //返回查询的所有json数据
 
-            return JsonResultUtil.instance().addExtraData(new Object[]{ProjectTaskList,projectList}).json();
+            return JsonResultUtil.instance().addData(ProjectTaskList).addExtraData(new Object[]{projectList}).json();
         } catch (DataAccessException e) {
             return JsonResultUtil.instance().
                     addMsg(e.getMessage())

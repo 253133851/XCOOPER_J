@@ -74,7 +74,7 @@ public class CAjaxUpdateTaskCommand implements Command {
 
             taskCheckItemVO.setID(SeqNumHelper.getNewSeqNum("task_check_item"));
 
-            taskCheckItemVO.setITEM_NAME(itemIsDonesArray[i]);
+            taskCheckItemVO.setITEM_NAME(itemNamesArray[i]);
 
             taskCheckItemVO.setTASK_ID(taskVO.getTASK_ID());
 
@@ -87,9 +87,9 @@ public class CAjaxUpdateTaskCommand implements Command {
         taskBean.modifyTask(taskVO);
 
         //返回ok
-        Collection taskCheckItemList = taskCheckItemBean.getTaskCheckItemColl("select * form task_check_item where task_id = "+ taskVO.getTASK_ID());
+        Collection taskCheckItemList = taskCheckItemBean.getTaskCheckItemColl("select * from task_check_item where task_id = "+ taskVO.getTASK_ID());
 
-        return JsonResultUtil.instance().addData(taskVO).addExtraData(new Object[]{taskCheckItemList}).ok();
+        return JsonResultUtil.instance().addData(taskVO).addExtraData(new Object[]{taskCheckItemList}).json();
     }
 
     @Override
