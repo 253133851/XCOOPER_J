@@ -33,7 +33,7 @@ public class CAjaxQueryProjectByIdsCommand implements Command {
 
         String projectIds = request.getParameter("projectIds");
 
-        String[] projectIdsArray = projectIds.split(".,");
+        String[] projectIdsArray = projectIds.split(",");
 
         try {
             Collection taskList = taskBean.getTaskColl("select * from task where project_id in (" + projectIds +")");
@@ -42,7 +42,7 @@ public class CAjaxQueryProjectByIdsCommand implements Command {
 
             //返回查询的所有json数据
 
-            return JsonResultUtil.instance().addData(taskList).addExtraData(new Object[]{"所有在projectIds里面的任务的讨论数据"}).json();
+            return JsonResultUtil.instance().addData(taskList).addExtraData(new Object[]{"所有在projectIds里面的任务的讨论数据(没做,有点麻烦)"}).json();
         } catch (DataAccessException e) {
             return JsonResultUtil.instance().
                     addMsg(e.getMessage())

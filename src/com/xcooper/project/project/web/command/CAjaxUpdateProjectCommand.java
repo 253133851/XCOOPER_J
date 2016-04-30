@@ -57,7 +57,7 @@ public class CAjaxUpdateProjectCommand implements Command {
         //循环插入 memberId 到 Project_Member表中
         String memberIds = request.getParameter("memberIds");
 
-        MysqlDialect.deleteColl("delete * from project_member where member_id in(" + memberIds +")");
+        MysqlDialect.deleteColl("delete from project_member where member_id in(" + memberIds +")");
 
         String[] memberIdArray=memberIds.split(",");
 
@@ -86,7 +86,7 @@ public class CAjaxUpdateProjectCommand implements Command {
 
         //返回ok
 
-        return JsonResultUtil.instance().addData(projectVO).ok();
+        return JsonResultUtil.instance().addData(projectVO).json();
     }
 
     @Override

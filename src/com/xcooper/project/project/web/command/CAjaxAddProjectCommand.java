@@ -47,18 +47,18 @@ public class CAjaxAddProjectCommand implements Command {
         projectVO.setPROJECT_INFO(request.getParameter("projectInfo"));
 
         //添加类型 type
-        projectVO.setTYPE(StrUtil.getNotNullIntValue(request.getParameter("type"),0));
+        projectVO.setTYPE(StrUtil.getNotNullIntValue(request.getParameter("type"), 0));
 
         //添加是否隐藏敏感 isHide
-        projectVO.setIS_HIDE(StrUtil.getNotNullIntValue(request.getParameter("isHide"),-1));
+        projectVO.setIS_HIDE(StrUtil.getNotNullIntValue(request.getParameter("isHide"), -1));
 
         //设置是否只读 isReadOnly
-        projectVO.setIS_READ_ONLY(StrUtil.getNotNullIntValue(request.getParameter("isReadOnly"),-1));
+        projectVO.setIS_READ_ONLY(StrUtil.getNotNullIntValue(request.getParameter("isReadOnly"), -1));
 
         //循环插入 memberId 到 Project_Member表中
         String memberIds = request.getParameter("memberIds");
 
-        String[] memberIdArray=memberIds.split(",");
+        String[] memberIdArray = memberIds.split(",");
 
         for (int i = 0; i < memberIdArray.length; i++) {
 
@@ -71,15 +71,14 @@ public class CAjaxAddProjectCommand implements Command {
             projectMemberVO.setPEOJECT_ID(projectVO.getPROJECT_ID());
 
             //设置添加的用户id memberId
-            projectMemberVO.setMEMBER_ID(StrUtil.getNotNullIntValue(memberIdArray[i],0));
+            projectMemberVO.setMEMBER_ID(StrUtil.getNotNullIntValue(memberIdArray[i], 0));
 
             projectMemberBean.addProjectMember(projectMemberVO);
-
         }
 
         try {
             projectBean.addProject(projectVO);
-            return JsonResultUtil.instance().addData(projectVO).addExtraData(new Object[]{"所有该项目的成员信息"}).ok();
+            return JsonResultUtil.instance().addData(projectVO).addExtraData(new Object[]{"所有该项目的成员信息"}).json();
         } catch (DataAccessException e) {
             return JsonResultUtil.instance().
                     addMsg(e.getMessage())
