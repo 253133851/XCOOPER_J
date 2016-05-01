@@ -26,29 +26,32 @@ public class CAjaxUpdateCommentCommand implements Command {
 
         CommentBean commentBean = new CommentBean();
 
-        int commentId = StrUtil.getNotNullIntValue(request.getParameter("id"), 0);
+        int commentId = StrUtil.getNotNullIntValue(request.getParameter("commentId"), 0);
 
         CommentVO commentVO = commentBean.getCommentByID(commentId);
 
-        commentVO.setCOMMENT_TITLE(request.getParameter("title"));
         //讨论标题 commentTitle
         //request.getParameter("xxx")  插入字符串
-        commentVO.setCOMMENT_TITLE(request.getParameter("commentTitle"));
-
+        //无用字段
+        if (null != request.getParameter("commentTitle")) {
+            commentVO.setCOMMENT_TITLE(request.getParameter("commentTitle"));
+        }
         //评论内容 comment
-        commentVO.setCOMMENT(request.getParameter("comment"));
-
+        if (null != request.getParameter("comment") && !("").equals(request.getParameter("comment"))) {
+            commentVO.setCOMMENT(request.getParameter("comment"));
+        }
         //通知目标 targetId
-        commentVO.setTARGET_ID(request.getParameter("targetId"));
-
+        if (null != request.getParameter("targetId")) {
+            commentVO.setTARGET_ID(request.getParameter("targetId"));
+        }
         //访客是否可见 isShow
-        commentVO.setIS_SHOW(StrUtil.getNotNullIntValue(request.getParameter("isShow"),0));
+        commentVO.setIS_SHOW(StrUtil.getNotNullIntValue(request.getParameter("isShow"), 0));
 
         //是否结束 isDown
-        commentVO.setIS_DONE(StrUtil.getNotNullIntValue(request.getParameter("isDown"),0));
+        commentVO.setIS_DONE(StrUtil.getNotNullIntValue(request.getParameter("isDown"), 0));
 
         //排序值 orderNum
-        commentVO.setORDER_NUM(StrUtil.getNotNullIntValue(request.getParameter("orderNum"),0));
+        commentVO.setORDER_NUM(StrUtil.getNotNullIntValue(request.getParameter("orderNum"), 0));
 
         try {
             commentBean.modifyComment(commentVO);

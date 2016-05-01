@@ -10,14 +10,18 @@ import com.pabula.fw.exception.SysException;
 import com.pabula.fw.utility.Command;
 import com.pabula.fw.utility.RequestHelper;
 import com.pabula.fw.utility.VO;
+import com.xcooper.comment.busi.CommentBean;
 import com.xcooper.member.member.busi.MemberBean;
 import com.xcooper.project.project.busi.ProjectBean;
 import com.xcooper.task.task.busi.TaskBean;
+import com.xcooper.task.task.vo.TaskVO;
+import com.xcooper.task.taskcheckitem.busi.TaskCheckItemBean;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by zdk on 2016.4.19.
@@ -36,13 +40,24 @@ public class CAjaxQueryProjectByIdsCommand implements Command {
         String[] projectIdsArray = projectIds.split(",");
 
         try {
-            Collection taskList = taskBean.getTaskColl("select * from task where project_id in (" + projectIds +")");
+            //List<TaskVO> 是 Collection的子集
 
+            List<TaskVO> taskList = (List<TaskVO>) taskBean.getTaskColl("select * from task where project_id in (" + projectIds + ")");
 
+            String commentTaskIds = "";
+
+            for (int i = 0; i < taskList.size(); i++) {
+                commentTaskIds = commentTaskIds + "," + taskList.get(i).getTASK_ID();
+            }
+            //.substring(1) 从第二字符开始切割
+            Collection commentTaskList = new CommentBean().getCommentColl("select * from comment where aim_id in (" + commentTaskIds.substring(1) + ") and type = 1");
+
+            // 返回 这些任务的检查项
+            Collection taskCheckItemList = new TaskCheckItemBean().getTaskCheckItemColl("select * from task_check_item where task_id in("+ commentTaskIds.substring(1)+")");
 
             //返回查询的所有json数据
 
-            return JsonResultUtil.instance().addData(taskList).addExtraData(new Object[]{"所有在projectIds里面的任务的讨论数据(没做,有点麻烦)"}).json();
+            return JsonResultUtil.instance().addData(taskList).addExtraData(new Object[]{commentTaskList,taskCheckItemList}).json();
         } catch (DataAccessException e) {
             return JsonResultUtil.instance().
                     addMsg(e.getMessage())

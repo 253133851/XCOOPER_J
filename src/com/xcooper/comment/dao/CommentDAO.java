@@ -179,7 +179,7 @@ public class CommentDAO {
      * @author zdk 2016-03-28 19:33:56
      */
     public Collection getCommentColl(String sql) throws DataAccessException {
-
+        System.out.println(sql);
         Collection resultList = new ArrayList();
         Connection conn = null;
         Statement stmt = null;

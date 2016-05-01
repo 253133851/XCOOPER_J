@@ -15,11 +15,14 @@ import com.xcooper.member.member.busi.MemberBean;
 import com.xcooper.project.project.busi.ProjectBean;
 import com.xcooper.sys.user.user.busi.UserBean;
 import com.xcooper.task.task.busi.TaskBean;
+import com.xcooper.task.task.vo.TaskVO;
+import com.xcooper.task.taskcheckitem.busi.TaskCheckItemBean;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.beans.PropertyDescriptor;
+import java.util.List;
 
 /**
  * Created by zdk on 2016.4.17.
@@ -37,13 +40,13 @@ public class CAjaxQueryTaskInIndexCommand implements Command {
 
         try {
             //返回 我负责的任务
-            Collection myTaskList = taskBean.getTaskColl
+            List<TaskVO> myTaskList = (List<TaskVO>) taskBean.getTaskColl
                     ("select * from task where exe_id = " + memberId);
             //返回 我创建的任务
-            Collection myCreateTaskList = taskBean.getTaskColl("select * from task where create_id =" + memberId);
+            List<TaskVO> myCreateTaskList = (List<TaskVO>) taskBean.getTaskColl("select * from task where create_id =" + memberId);
 
             //返回 我关注的任务
-            Collection myFocusTaskList = taskBean.getTaskCollWithLeftJoin("select * from task left join member_task " +
+            List<TaskVO> myFocusTaskList = (List<TaskVO>) taskBean.getTaskCollWithLeftJoin("select * from task left join member_task " +
                     "on task.task_id = member_task.task_id where member_task.member_id = " + memberId + " and member_task.is_focus = 1");
 
             //返回 表PROJECT的所有数据
@@ -53,7 +56,21 @@ public class CAjaxQueryTaskInIndexCommand implements Command {
             Collection memberList = new MemberBean().getMemberColl("select * from  member ");
 
             //返回 表COMMENT的所有数据
-            Collection commentList = new CommentBean().getCommentColl("select * from  comment ");
+            String taskIdsList="";
+            for (int i = 0; i <myTaskList.size() ; i++) {
+                taskIdsList=taskIdsList+","+myTaskList.get(i).getTASK_ID();
+            }
+            for (int i = 0; i <myCreateTaskList.size() ; i++) {
+                taskIdsList=taskIdsList+","+myCreateTaskList.get(i).getTASK_ID();
+            }
+            for (int i = 0; i < myFocusTaskList.size(); i++) {
+                taskIdsList=taskIdsList+","+myFocusTaskList.get(i).getTASK_ID();
+            }
+            Collection commentList = new CommentBean().getCommentColl("select * from comment where aim_id in (" + taskIdsList.substring(1) + ") and type = 1");
+
+            // 返回 这些任务的检查项
+            Collection taskCheckItemList = new TaskCheckItemBean().getTaskCheckItemColl("select * from task_check_item where task_id in("+ taskIdsList.substring(1)+")");
+
 
             //返回查询的所有json数据
             if (myTaskList.size() <= 0) {
@@ -62,7 +79,7 @@ public class CAjaxQueryTaskInIndexCommand implements Command {
                         .addCode(JsonResultUtil.ERROR).json();
             }
 
-            return JsonResultUtil.instance().addExtraData(new Object[]{myTaskList, myCreateTaskList, myFocusTaskList, projectList, memberList, commentList}).json();
+            return JsonResultUtil.instance().addExtraData(new Object[]{myTaskList, myCreateTaskList, myFocusTaskList, projectList, memberList, commentList,taskCheckItemList}).json();
 
         } catch (DataAccessException e) {
             return JsonResultUtil.instance().

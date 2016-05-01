@@ -39,25 +39,30 @@ public class CAjaxUpdateTaskCommand implements Command {
         TaskVO taskVO = taskBean.getTaskByID(id);
 
         //修改 任务名 taskName
-        taskVO.setTASK_NAME(request.getParameter("taskName"));
-
+        if(null!=request.getParameter("taskName")&& !("").equals(request.getParameter("taskName"))) {
+            taskVO.setTASK_NAME(request.getParameter("taskName"));
+        }
         //修改 截止时间 endDatetime
         if (null != request.getParameter("endDatetime") && !("").equals(request.getParameter("endDatetime"))) {
             taskVO.setEND_DATETIME(Timestamp.valueOf(request.getParameter("endDatetime")));
         }
 
         //修改 任务描述 taskInfo
-        taskVO.setTASK_INFO(request.getParameter("taskInfo"));
-
+        if(null!=request.getParameter("taskInfo")) {
+            taskVO.setTASK_INFO(request.getParameter("taskInfo"));
+        }
         //修改执行人 exeId
-        taskVO.setEXE_ID(StrUtil.getNotNullIntValue(request.getParameter("exeId"),0));
-
+        if(null!=request.getParameter("exeId")) {
+            taskVO.setEXE_ID(StrUtil.getNotNullIntValue(request.getParameter("exeId"), 0));
+        }
         //修改所属清单 listId
-        taskVO.setLIST_ID(StrUtil.getNotNullIntValue(request.getParameter("listId"),0));
-
+        if(null!=request.getParameter("listId")) {
+            taskVO.setLIST_ID(StrUtil.getNotNullIntValue(request.getParameter("listId"), 0));
+        }
         //修改所属项目 projectId
-        taskVO.setPROJECT_ID(StrUtil.getNotNullIntValue(request.getParameter("projectId"),0));
-
+        if(null!=request.getParameter("projectId")&& !("").equals(request.getParameter("projectId"))) {
+            taskVO.setPROJECT_ID(StrUtil.getNotNullIntValue(request.getParameter("projectId"), 0));
+        }
         //修改检查项
         TaskCheckItemBean taskCheckItemBean = new TaskCheckItemBean();
         TaskCheckItemVO taskCheckItemVO = new TaskCheckItemVO();

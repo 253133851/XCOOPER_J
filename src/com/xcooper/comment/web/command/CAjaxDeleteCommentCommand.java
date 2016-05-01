@@ -24,7 +24,7 @@ public class CAjaxDeleteCommentCommand implements Command {
     public String execute(RequestHelper helper, HttpServletRequest request) throws ServletException, BusinessRuleException, DataAccessException, SysException {
 
 
-        int commentId = StrUtil.getNotNullIntValue(request.getParameter("id"), 0);
+        int commentId = StrUtil.getNotNullIntValue(request.getParameter("commentId"), 0);
 
         CommentBean bean = new CommentBean();
 

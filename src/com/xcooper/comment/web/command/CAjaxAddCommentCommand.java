@@ -35,17 +35,18 @@ public class CAjaxAddCommentCommand implements Command {
         //插入任务/话题id aimId
         commentVO.setAIM_ID(StrUtil.getNotNullIntValue(request.getParameter("aimId"), 0));
 
-        //评论人id commentId
+        //评论人id commentMemberId
         commentVO.setCOMMENT_MEMBER_ID(StrUtil.getNotNullIntValue(request.getParameter("commentMemberId"), 0));
 
         //讨论标题 commentTitle
         //request.getParameter("xxx")  插入字符串
+        //无用字段
         commentVO.setCOMMENT_TITLE(request.getParameter("commentTitle"));
 
         //评论内容 comment
         commentVO.setCOMMENT(request.getParameter("comment"));
 
-        //类型 type
+        //类型 type  任务讨论:1   话题讨论:2
         commentVO.setTYPE(StrUtil.getNotNullIntValue(request.getParameter("type"), 0));
 
         //通知目标 targetId
