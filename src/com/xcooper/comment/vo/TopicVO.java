@@ -16,6 +16,9 @@ public class TopicVO implements VO {
 	//SERVICE_ID
 	int SERVICE_ID;
 
+	//PROJECT_ID
+	int PROJECT_ID;
+
 	//TITILE
 	String TITILE;
 
@@ -33,6 +36,14 @@ public class TopicVO implements VO {
 
 	//UPDATE_DATETIME
 	Timestamp UPDATE_DATETIME;
+
+	public int getPROJECT_ID() {
+		return PROJECT_ID;
+	}
+
+	public void setPROJECT_ID(int PROJECT_ID) {
+		this.PROJECT_ID = PROJECT_ID;
+	}
 
 	/**
 	 * @return 返回 TOPPIC_ID TOPPIC_ID

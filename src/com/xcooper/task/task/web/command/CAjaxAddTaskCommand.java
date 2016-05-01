@@ -74,47 +74,49 @@ public class CAjaxAddTaskCommand implements Command {
 
         //添加关注人 focusIds
         String focusIds = request.getParameter("focusIds");
+        if (!focusIds.equals("")) {
+            String[] focusArray = focusIds.split(".,");
 
-        String[] focusArray = focusIds.split(".,");
+            for (int i = 0; i < focusArray.length; i++) {
+                MemberTaskVO memberTaskVO = new MemberTaskVO();
 
-        for (int i = 0; i < focusArray.length; i++) {
-            MemberTaskVO memberTaskVO = new MemberTaskVO();
+                memberTaskVO.setID(SeqNumHelper.getNewSeqNum("member_task"));
 
-            memberTaskVO.setID(SeqNumHelper.getNewSeqNum("member_task"));
+                //设置当前任务的id
+                memberTaskVO.setTASK_ID(taskVO.getTASK_ID());
 
-            //设置当前任务的id
-            memberTaskVO.setTASK_ID(taskVO.getTASK_ID());
+                //插入关注人id
+                memberTaskVO.setMEMBER_ID(StrUtil.getNotNullIntValue(focusArray[i], 0));
 
-            //插入关注人id
-            memberTaskVO.setMEMBER_ID(StrUtil.getNotNullIntValue(focusArray[i], 0));
+                //设置为关注
+                memberTaskVO.setIS_FOCUS(1);
 
-            //设置为关注
-            memberTaskVO.setIS_FOCUS(1);
-
-            memberTaskBean.addMemberTask(memberTaskVO);
+                memberTaskBean.addMemberTask(memberTaskVO);
+            }
         }
         //添加检查项 itemNames
         String itemNames = request.getParameter("itemNames");
 
-        String[] itemNamesArray = itemNames.split(".,");
+        if (!itemNames.equals("")) {
+            String[] itemNamesArray = itemNames.split(".,");
 
-        TaskCheckItemVO taskCheckItemVO = new TaskCheckItemVO();
+            TaskCheckItemVO taskCheckItemVO = new TaskCheckItemVO();
 
-        for (int i = 0; i < itemNamesArray.length; i++) {
+            for (int i = 0; i < itemNamesArray.length; i++) {
 
-            taskCheckItemVO.setID(SeqNumHelper.getNewSeqNum("task_check_item"));
+                taskCheckItemVO.setID(SeqNumHelper.getNewSeqNum("task_check_item"));
 
-            taskCheckItemVO.setTASK_ID(taskVO.getTASK_ID());
+                taskCheckItemVO.setTASK_ID(taskVO.getTASK_ID());
 
-            //设置检查项名
-            taskCheckItemVO.setITEM_NAME(itemNamesArray[i]);
+                //设置检查项名
+                taskCheckItemVO.setITEM_NAME(itemNamesArray[i]);
 
-            //设置检查项 为未完成 -1
-            taskCheckItemVO.setIS_DONE(-1);
+                //设置检查项 为未完成 -1
+                taskCheckItemVO.setIS_DONE(-1);
 
-            taskCheckItemBean.addTaskCheckItem(taskCheckItemVO);
+                taskCheckItemBean.addTaskCheckItem(taskCheckItemVO);
+            }
         }
-
         try {
             Collection taskCheckItemList = taskCheckItemBean.getTaskCheckItemColl("select * from task_check_item where task_id = " + taskVO.getTASK_ID());
             taskBean.addTask(taskVO);
