@@ -1,6 +1,7 @@
 package com.xcooper.tomato.web.command;
 
 import com.pabula.common.util.JsonResultUtil;
+import com.pabula.common.util.StrUtil;
 import com.pabula.common.util.ValidateUtil;
 import com.pabula.fw.exception.BusinessRuleException;
 import com.pabula.fw.exception.DataAccessException;
@@ -19,7 +20,7 @@ import java.util.Collection;
 /**
  * Created by zdk on 2016.4.19.
  */
-public class CAjaxQueryTomatoCommand implements Command {
+public class CAjaxQueryTomatoByMemberIdCommand implements Command {
 
     @Override
     public String execute(RequestHelper helper, HttpServletRequest request) throws ServletException, BusinessRuleException, DataAccessException, SysException {
@@ -27,10 +28,12 @@ public class CAjaxQueryTomatoCommand implements Command {
 
         TomatoBean tomatoBean = new TomatoBean();
 
+        int memberId = StrUtil.getNotNullIntValue(request.getParameter("memberId"),0);
+
         try {
 
-            //返回 表PROJECT的所有数据
-            Collection tomatoColl = tomatoBean.getTomatoColl("select * from tomato");
+            //返回 该member的所有番茄钟记录
+            Collection tomatoColl = tomatoBean.getTomatoColl("select * from tomato where create_id = "+ memberId);
 
             //返回查询的所有json数据
 

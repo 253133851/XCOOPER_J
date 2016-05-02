@@ -69,6 +69,8 @@ public class CAjaxQueryLogByMemberIdCommand implements Command {
         }
 
         //我创建话题   有关通知 (回复了)
+
+        //返回 我创建的话题
         List<TopicVO> myCreateTopicList = (List<TopicVO>) topicBean.getTopicColl("select * from topic where create_id = "+memberId);
 
         try {

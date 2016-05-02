@@ -43,15 +43,17 @@ public class CAjaxAddTomatoCommand implements Command {
         tomatoVO.setTASK_ID(StrUtil.getNotNullIntValue(request.getParameter("taskId"), 0));
 
         //开始时间 beginDatetime
-        tomatoVO.setBEGIN_DATETIME(Timestamp.valueOf(request.getParameter("beginDatetime")));
-
+        if (null != request.getParameter("beginDatetime")) {
+            tomatoVO.setBEGIN_DATETIME(Timestamp.valueOf(request.getParameter("beginDatetime")));
+        }
         //截止时间 endDatetime
-        tomatoVO.setEND_DATETIME(Timestamp.valueOf(request.getParameter("endDatetime")));
-
-        //铃声 ring
+        if (null != request.getParameter("endDatetime")) {
+            tomatoVO.setEND_DATETIME(Timestamp.valueOf(request.getParameter("endDatetime")));
+        }
+        //铃声 ring (无用字段)
         tomatoVO.setRING(request.getParameter("ring"));
 
-        //备注 remark
+        //备注(这个番茄钟干了什么 是任务就存任务名) remark
         tomatoVO.setREMARK(request.getParameter("remark"));
 
         try {
