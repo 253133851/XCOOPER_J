@@ -1,5 +1,6 @@
 package com.xcooper.sys.file.busi;
 
+import com.pabula.common.util.DateUtil;
 import com.pabula.fw.exception.DataAccessException;
 import com.xcooper.sys.file.dao.FileDAO;
 import com.xcooper.sys.file.vo.FileVO;
@@ -28,6 +29,7 @@ public class FileBean {
 	 * @author zdk 2016-03-28 19:31:58
 	 */
 	public void addFile(FileVO VO)throws DataAccessException {
+		VO.setADD_DATETIME(DateUtil.getCurrTime());
 		dao.addFile(VO);
 	}
 

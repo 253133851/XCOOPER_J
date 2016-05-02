@@ -25,8 +25,7 @@ import java.beans.PropertyDescriptor;
 import java.util.List;
 
 /**
- * Created by zdk on 2016.4.17.
- * 在任务主页显示是调用的接口,包括我负责的,我发起的,我关注的
+ * Created by zdk on 2016.5.3.
  */
 public class CAjaxQueryTaskInIndexCommand implements Command {
 

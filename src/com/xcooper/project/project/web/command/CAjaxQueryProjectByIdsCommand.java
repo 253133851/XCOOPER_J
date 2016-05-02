@@ -15,6 +15,7 @@ import com.xcooper.comment.busi.TopicBean;
 import com.xcooper.member.member.busi.MemberBean;
 import com.xcooper.project.project.busi.ProjectBean;
 import com.xcooper.project.projectMember.busi.ProjectMemberBean;
+import com.xcooper.sys.file.busi.FileBean;
 import com.xcooper.task.task.busi.TaskBean;
 import com.xcooper.task.task.vo.TaskVO;
 import com.xcooper.task.taskcheckitem.busi.TaskCheckItemBean;
@@ -52,8 +53,10 @@ public class CAjaxQueryProjectByIdsCommand implements Command {
                 commentTaskIds = commentTaskIds + "," + taskList.get(i).getTASK_ID();
             }
             //.substring(1) 从第二字符开始切割
+            //返回 这些任务的评论
             Collection commentTaskList = new CommentBean().getCommentColl("select * from comment where aim_id in (" + commentTaskIds.substring(1) + ") and type = 1");
 
+            //返回 这些项目中的话题中的评论
             Collection commentProjectList = new CommentBean().getCommentColl("select * from comment where aim_id in (" + projectIds + ") and type = 2");
 
             // 返回 这些任务的检查项
@@ -62,10 +65,14 @@ public class CAjaxQueryProjectByIdsCommand implements Command {
             // 返回 这些任务的检查项
             Collection projectMemberColl = new ProjectMemberBean().getProjectMemberColl("select * from project_member where PEOJECT_ID in(" + projectIds + ")");
 
+            //返回 这些项目的话题讨论
             Collection topicColl = new TopicBean().getTopicColl(" select * from topic where project_id in (" + projectIds + ")");
 
+            //返回 这些项目对应的文件
+            Collection fileColl = new FileBean().getFileColl("select * from file where project_id in (" + projectIds + ")");
+
             //返回查询的所有json数据
-            return JsonResultUtil.instance().addData(taskList).addExtraData(new Object[]{commentTaskList, commentProjectList, taskCheckItemList, projectMemberColl, topicColl}).json();
+            return JsonResultUtil.instance().addData(taskList).addExtraData(new Object[]{commentTaskList, commentProjectList, taskCheckItemList, projectMemberColl, topicColl, fileColl}).json();
         } catch (DataAccessException e) {
             return JsonResultUtil.instance().
                     addMsg(e.getMessage())
