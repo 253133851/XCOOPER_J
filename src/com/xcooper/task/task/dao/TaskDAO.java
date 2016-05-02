@@ -164,7 +164,7 @@ public class TaskDAO {
      * @author zdk 2016-03-28 19:34:51
      */
     public Collection getTaskColl(String sql, boolean isFocus) throws DataAccessException {
-
+        System.out.println(sql);
         Collection resultList = new ArrayList();
         Connection conn = null;
         Statement stmt = null;

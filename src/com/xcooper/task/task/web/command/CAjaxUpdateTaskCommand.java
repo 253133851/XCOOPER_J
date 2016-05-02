@@ -45,7 +45,9 @@ public class CAjaxUpdateTaskCommand implements Command {
         TaskVO taskVO = taskBean.getTaskByID(id);
 
         //修改 任务名 taskName
+
         if (null != request.getParameter("taskName") ) {
+
             taskVO.setTASK_NAME(request.getParameter("taskName"));
         }
         //修改 截止时间 endDatetime
@@ -71,29 +73,35 @@ public class CAjaxUpdateTaskCommand implements Command {
         }
         //修改检查项
         TaskCheckItemBean taskCheckItemBean = new TaskCheckItemBean();
-        TaskCheckItemVO taskCheckItemVO = new TaskCheckItemVO();
 
-        String itemNames = request.getParameter("itemNames");
-        String itemIsDones = request.getParameter("itemIsDones");
+        if (null != request.getParameter("itemNames")) {
+            String itemNames = request.getParameter("itemNames");
+            String itemIsDones = request.getParameter("itemIsDones");
 
-        String[] itemNamesArray = itemNames.split(".,");
-        String[] itemIsDonesArray = itemIsDones.split(".,");
+            String[] itemNamesArray = itemNames.split(".,");
+            String[] itemIsDonesArray = itemIsDones.split(".,");
+            if (!itemNames.equals("")) {
+                MysqlDialect.deleteColl("delete from task_check_item where task_id = " + taskVO.getTASK_ID());
 
-        MysqlDialect.deleteColl("delete from task_check_item where task_id = " + taskVO.getTASK_ID());
+                for (int i = 0; i < itemNamesArray.length; i++) {
 
-        for (int i = 0; i < itemNamesArray.length; i++) {
 
-            taskCheckItemVO.setID(SeqNumHelper.getNewSeqNum("task_check_item"));
 
-            taskCheckItemVO.setITEM_NAME(itemNamesArray[i]);
+                    TaskCheckItemVO taskCheckItemVO = new TaskCheckItemVO();
 
-            taskCheckItemVO.setTASK_ID(taskVO.getTASK_ID());
+                    taskCheckItemVO.setID(SeqNumHelper.getNewSeqNum("task_check_item"));
 
-            taskCheckItemVO.setIS_DONE(StrUtil.getNotNullIntValue(itemIsDonesArray[i], 0));
+                    taskCheckItemVO.setITEM_NAME(itemNamesArray[i]);
 
-            taskCheckItemBean.addTaskCheckItem(taskCheckItemVO);
+                    taskCheckItemVO.setTASK_ID(taskVO.getTASK_ID());
+
+
+                    taskCheckItemVO.setIS_DONE(StrUtil.getNotNullIntValue(itemIsDonesArray[i], 0));
+
+                    taskCheckItemBean.addTaskCheckItem(taskCheckItemVO);
+                }
+            }
         }
-
         //执行修改
         taskBean.modifyTask(taskVO);
 

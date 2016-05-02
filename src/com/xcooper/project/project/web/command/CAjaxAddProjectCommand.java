@@ -24,6 +24,7 @@ import com.xcooper.task.task.vo.TaskVO;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
+import java.util.Collection;
 
 /**
  * Created by zdk on 2016.4.19.
@@ -40,7 +41,7 @@ public class CAjaxAddProjectCommand implements Command {
 
         ProjectVO projectVO = new ProjectVO();
 
-        int memberId = StrUtil.getNotNullIntValue(request.getParameter("memberId"),0);
+        int memberId = StrUtil.getNotNullIntValue(request.getParameter("memberId"), 0);
 
         //SeqNumHelper.getNewSeqNum("xxxx") 像VO对象中插入可用ID
         projectVO.setPROJECT_ID(SeqNumHelper.getNewSeqNum("project"));
@@ -62,47 +63,53 @@ public class CAjaxAddProjectCommand implements Command {
 
         //循环插入 memberId 到 Project_Member表中
         String memberIds = request.getParameter("memberIds");
+        if (!memberIds.equals("")) {
+            String[] memberIdArray = memberIds.split(",");
 
-        String[] memberIdsArray = memberIds.split(",");
 
-        for (int i = 0; i < memberIdsArray.length; i++) {
+            String[] memberIdsArray = memberIds.split(",");
 
-            ProjectMemberVO projectMemberVO = new ProjectMemberVO();
 
-            //设置 id
-            projectMemberVO.setID(SeqNumHelper.getNewSeqNum("project_member"));
+            for (int i = 0; i < memberIdArray.length; i++) {
 
-            //设置当前的projectId
-            projectMemberVO.setPEOJECT_ID(projectVO.getPROJECT_ID());
+                ProjectMemberVO projectMemberVO = new ProjectMemberVO();
 
-            //设置添加的用户id memberIds
-            projectMemberVO.setMEMBER_ID(StrUtil.getNotNullIntValue(memberIdsArray[i], 0));
 
-            projectMemberBean.addProjectMember(projectMemberVO);
+                //设置 id
+                projectMemberVO.setID(SeqNumHelper.getNewSeqNum("project_member"));
+
+                //设置当前的projectId
+                projectMemberVO.setPEOJECT_ID(projectVO.getPROJECT_ID());
+
+                //设置添加的用户id memberId
+                projectMemberVO.setMEMBER_ID(StrUtil.getNotNullIntValue(memberIdArray[i], 0));
+
+                //设置添加的用户id memberIds
+                projectMemberVO.setMEMBER_ID(StrUtil.getNotNullIntValue(memberIdsArray[i], 0));
+
+                projectMemberBean.addProjectMember(projectMemberVO);
+            }
         }
 
         //添加日志
-        LogUtil.operaLog(memberId, OperaType.ADD,LogType.PROJECT,projectVO.getPROJECT_ID(),projectVO.getPROJECT_NAME());
+        LogUtil.operaLog(memberId, OperaType.ADD, LogType.PROJECT, projectVO.getPROJECT_ID(), projectVO.getPROJECT_NAME());
 
-        try {
+        Collection projectMemberColl = new ProjectMemberBean().getProjectMemberColl("select * from project_member where peoject_id = " + projectVO.getPROJECT_ID());
+        try
+
+        {
             projectBean.addProject(projectVO);
-            return JsonResultUtil.instance().addData(projectVO).addExtraData(new Object[]{"所有该项目的成员信息"}).json();
-        } catch (DataAccessException e) {
+            return JsonResultUtil.instance().addData(projectVO).addExtraData(new Object[]{projectMemberColl}).json();
+        } catch (
+                DataAccessException e
+                )
+
+        {
             return JsonResultUtil.instance().
                     addMsg(e.getMessage())
                     .addCode(JsonResultUtil.ERROR).json();
         }
 
-//        返回error
-//        JsonResultUtil.instance().error();
-//        返回ok
-//        JsonResultUtil.instance().ok();
-//        返回带参数的json
-//        JsonResultUtil.instance()
-//                .addMsg(e.getMessage()).
-//                addCode(JsonResultUtil.OK)
-//                .addData("xxx")
-//                .json();
     }
 
 
