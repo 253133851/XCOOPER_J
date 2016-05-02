@@ -14,6 +14,9 @@ import com.pabula.fw.utility.RequestHelper;
 import com.pabula.fw.utility.VO;
 import com.xcooper.list.busi.ListBean;
 import com.xcooper.list.vo.ListVO;
+import com.xcooper.sys.log.web.command.LogType;
+import com.xcooper.sys.log.web.command.LogUtil;
+import com.xcooper.sys.log.web.command.OperaType;
 import com.xcooper.task.task.busi.TaskBean;
 import com.xcooper.task.task.vo.TaskVO;
 import com.xcooper.task.taskcheckitem.busi.TaskCheckItemBean;
@@ -36,10 +39,13 @@ public class CAjaxUpdateTaskCommand implements Command {
 
         int id = StrUtil.getNotNullIntValue(request.getParameter("id"), 0);
 
+        //获得操作人的 memberId
+        int memberId = StrUtil.getNotNullIntValue(request.getParameter("memberId"), 0);
+
         TaskVO taskVO = taskBean.getTaskByID(id);
 
         //修改 任务名 taskName
-        if(null!=request.getParameter("taskName")&& !("").equals(request.getParameter("taskName"))) {
+        if (null != request.getParameter("taskName") ) {
             taskVO.setTASK_NAME(request.getParameter("taskName"));
         }
         //修改 截止时间 endDatetime
@@ -48,19 +54,19 @@ public class CAjaxUpdateTaskCommand implements Command {
         }
 
         //修改 任务描述 taskInfo
-        if(null!=request.getParameter("taskInfo")) {
+        if (null != request.getParameter("taskInfo")) {
             taskVO.setTASK_INFO(request.getParameter("taskInfo"));
         }
         //修改执行人 exeId
-        if(null!=request.getParameter("exeId")) {
+        if (null != request.getParameter("exeId")) {
             taskVO.setEXE_ID(StrUtil.getNotNullIntValue(request.getParameter("exeId"), 0));
         }
         //修改所属清单 listId
-        if(null!=request.getParameter("listId")) {
+        if (null != request.getParameter("listId")) {
             taskVO.setLIST_ID(StrUtil.getNotNullIntValue(request.getParameter("listId"), 0));
         }
         //修改所属项目 projectId
-        if(null!=request.getParameter("projectId")&& !("").equals(request.getParameter("projectId"))) {
+        if (null != request.getParameter("projectId") && !("").equals(request.getParameter("projectId"))) {
             taskVO.setPROJECT_ID(StrUtil.getNotNullIntValue(request.getParameter("projectId"), 0));
         }
         //修改检查项
@@ -75,7 +81,7 @@ public class CAjaxUpdateTaskCommand implements Command {
 
         MysqlDialect.deleteColl("delete from task_check_item where task_id = " + taskVO.getTASK_ID());
 
-        for (int i = 0; i <itemNamesArray.length ; i++) {
+        for (int i = 0; i < itemNamesArray.length; i++) {
 
             taskCheckItemVO.setID(SeqNumHelper.getNewSeqNum("task_check_item"));
 
@@ -83,7 +89,7 @@ public class CAjaxUpdateTaskCommand implements Command {
 
             taskCheckItemVO.setTASK_ID(taskVO.getTASK_ID());
 
-            taskCheckItemVO.setIS_DONE(StrUtil.getNotNullIntValue(itemIsDonesArray[i],0));
+            taskCheckItemVO.setIS_DONE(StrUtil.getNotNullIntValue(itemIsDonesArray[i], 0));
 
             taskCheckItemBean.addTaskCheckItem(taskCheckItemVO);
         }
@@ -91,8 +97,11 @@ public class CAjaxUpdateTaskCommand implements Command {
         //执行修改
         taskBean.modifyTask(taskVO);
 
+        //操作日志
+        LogUtil.operaLog(memberId, OperaType.EDIT, LogType.TASK, taskVO.getTASK_ID(), taskVO.getTASK_NAME());
+
         //返回ok
-        Collection taskCheckItemList = taskCheckItemBean.getTaskCheckItemColl("select * from task_check_item where task_id = "+ taskVO.getTASK_ID());
+        Collection taskCheckItemList = taskCheckItemBean.getTaskCheckItemColl("select * from task_check_item where task_id = " + taskVO.getTASK_ID());
 
         return JsonResultUtil.instance().addData(taskVO).addExtraData(new Object[]{taskCheckItemList}).json();
     }

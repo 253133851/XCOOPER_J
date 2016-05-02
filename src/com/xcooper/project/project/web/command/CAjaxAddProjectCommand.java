@@ -15,6 +15,9 @@ import com.xcooper.project.project.busi.ProjectBean;
 import com.xcooper.project.project.vo.ProjectVO;
 import com.xcooper.project.projectMember.busi.ProjectMemberBean;
 import com.xcooper.project.projectMember.vo.ProjectMemberVO;
+import com.xcooper.sys.log.web.command.LogType;
+import com.xcooper.sys.log.web.command.LogUtil;
+import com.xcooper.sys.log.web.command.OperaType;
 import com.xcooper.task.task.busi.TaskBean;
 import com.xcooper.task.task.vo.TaskVO;
 
@@ -37,6 +40,8 @@ public class CAjaxAddProjectCommand implements Command {
 
         ProjectVO projectVO = new ProjectVO();
 
+        int memberId = StrUtil.getNotNullIntValue(request.getParameter("memberId"),0);
+
         //SeqNumHelper.getNewSeqNum("xxxx") 像VO对象中插入可用ID
         projectVO.setPROJECT_ID(SeqNumHelper.getNewSeqNum("project"));
 
@@ -58,9 +63,9 @@ public class CAjaxAddProjectCommand implements Command {
         //循环插入 memberId 到 Project_Member表中
         String memberIds = request.getParameter("memberIds");
 
-        String[] memberIdArray = memberIds.split(",");
+        String[] memberIdsArray = memberIds.split(",");
 
-        for (int i = 0; i < memberIdArray.length; i++) {
+        for (int i = 0; i < memberIdsArray.length; i++) {
 
             ProjectMemberVO projectMemberVO = new ProjectMemberVO();
 
@@ -70,11 +75,14 @@ public class CAjaxAddProjectCommand implements Command {
             //设置当前的projectId
             projectMemberVO.setPEOJECT_ID(projectVO.getPROJECT_ID());
 
-            //设置添加的用户id memberId
-            projectMemberVO.setMEMBER_ID(StrUtil.getNotNullIntValue(memberIdArray[i], 0));
+            //设置添加的用户id memberIds
+            projectMemberVO.setMEMBER_ID(StrUtil.getNotNullIntValue(memberIdsArray[i], 0));
 
             projectMemberBean.addProjectMember(projectMemberVO);
         }
+
+        //添加日志
+        LogUtil.operaLog(memberId, OperaType.ADD,LogType.PROJECT,projectVO.getPROJECT_ID(),projectVO.getPROJECT_NAME());
 
         try {
             projectBean.addProject(projectVO);

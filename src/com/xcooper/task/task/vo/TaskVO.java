@@ -11,6 +11,10 @@ import java.sql.Timestamp;
  */
 public class TaskVO implements VO {
 
+	public TaskVO() {
+		this.IS_DEL = -1;
+	}
+
 	//TASK_ID
 	int TASK_ID;
 

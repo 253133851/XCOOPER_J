@@ -8,6 +8,8 @@ public class OperaType {
 
     public static String COMPLETE = "完成了";
 
+    public static String OPEN = "重新打开了";
+
     public static String REPLY = "回复了";
 
     public static String APPOINT = "指派了";
