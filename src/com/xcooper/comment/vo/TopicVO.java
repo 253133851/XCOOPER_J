@@ -10,8 +10,14 @@ import java.sql.Timestamp;
  */
 public class TopicVO implements VO {
 
-	//TOPPIC_ID
-	int TOPPIC_ID;
+
+	public TopicVO() {
+		//默认值为-1
+		this.IS_DONE = -1;
+	}
+
+	//TOPIC_ID
+	int TOPIC_ID;
 
 	//SERVICE_ID
 	int SERVICE_ID;
@@ -46,17 +52,17 @@ public class TopicVO implements VO {
 	}
 
 	/**
-	 * @return 返回 TOPPIC_ID TOPPIC_ID
+	 * @return 返回 TOPIC_ID TOPIC_ID
 	 */
-	public int getTOPPIC_ID() {
-		return TOPPIC_ID;
+	public int getTOPIC_ID() {
+		return TOPIC_ID;
 	}
 
 	/**
-	 * @param TOPPIC_ID 设置 TOPPIC_ID 的值
+	 * @param TOPIC_ID 设置 TOPIC_ID 的值
 	 */
-	public void setTOPPIC_ID(int TOPPIC_ID) {
-		this.TOPPIC_ID = TOPPIC_ID;
+	public void setTOPIC_ID(int TOPIC_ID) {
+		this.TOPIC_ID = TOPIC_ID;
 	}
 
 	/**
@@ -160,7 +166,7 @@ public class TopicVO implements VO {
 	public String toString() {
 		StringBuffer ret = new StringBuffer();
 		ret.append("toString : ");
-		ret.append(", TOPPIC_ID='" + TOPPIC_ID + "'");
+		ret.append(", TOPIC_ID='" + TOPIC_ID + "'");
 		ret.append(", SERVICE_ID='" + SERVICE_ID + "'");
 		ret.append(", TITILE='" + TITILE + "'");
 		ret.append(", DESCRIBES='" + DESCRIBES + "'");

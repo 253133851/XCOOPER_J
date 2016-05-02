@@ -18,4 +18,6 @@ public class OperaType {
 
     public static String ADD = "新增了";
 
+    public static String Delete = "删除了";
+
 }

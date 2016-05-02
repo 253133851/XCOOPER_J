@@ -12,8 +12,8 @@ import java.sql.Timestamp;
  */
 public class CommentVO implements VO {
 
-    public static final int TASK = 1001;
-    public static final int TOPIC = 1002;
+    public static final int TASK = 1;
+    public static final int TOPIC = 2;
 
     //COMMENT_ID
     int COMMENT_ID;

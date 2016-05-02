@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 
 /**
- * Created by 26901 on 2016.4.16.
+ * Created by zdk on 2016.4.16.
  */
 public class CAjaxAddCommentCommand implements Command {
 
