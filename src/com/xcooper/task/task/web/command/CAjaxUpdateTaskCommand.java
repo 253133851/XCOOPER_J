@@ -46,7 +46,7 @@ public class CAjaxUpdateTaskCommand implements Command {
 
         //修改 任务名 taskName
 
-        if (null != request.getParameter("taskName") ) {
+        if (null != request.getParameter("taskName") && !("").equals(request.getParameter("taskName"))) {
 
             taskVO.setTASK_NAME(request.getParameter("taskName"));
         }
@@ -85,8 +85,6 @@ public class CAjaxUpdateTaskCommand implements Command {
 
                 for (int i = 0; i < itemNamesArray.length; i++) {
 
-
-
                     TaskCheckItemVO taskCheckItemVO = new TaskCheckItemVO();
 
                     taskCheckItemVO.setID(SeqNumHelper.getNewSeqNum("task_check_item"));
@@ -94,7 +92,6 @@ public class CAjaxUpdateTaskCommand implements Command {
                     taskCheckItemVO.setITEM_NAME(itemNamesArray[i]);
 
                     taskCheckItemVO.setTASK_ID(taskVO.getTASK_ID());
-
 
                     taskCheckItemVO.setIS_DONE(StrUtil.getNotNullIntValue(itemIsDonesArray[i], 0));
 

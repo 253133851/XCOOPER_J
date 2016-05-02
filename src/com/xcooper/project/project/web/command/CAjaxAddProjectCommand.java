@@ -66,14 +66,9 @@ public class CAjaxAddProjectCommand implements Command {
         if (!memberIds.equals("")) {
             String[] memberIdArray = memberIds.split(",");
 
-
-            String[] memberIdsArray = memberIds.split(",");
-
-
             for (int i = 0; i < memberIdArray.length; i++) {
 
                 ProjectMemberVO projectMemberVO = new ProjectMemberVO();
-
 
                 //设置 id
                 projectMemberVO.setID(SeqNumHelper.getNewSeqNum("project_member"));
@@ -84,32 +79,19 @@ public class CAjaxAddProjectCommand implements Command {
                 //设置添加的用户id memberId
                 projectMemberVO.setMEMBER_ID(StrUtil.getNotNullIntValue(memberIdArray[i], 0));
 
-                //设置添加的用户id memberIds
-                projectMemberVO.setMEMBER_ID(StrUtil.getNotNullIntValue(memberIdsArray[i], 0));
-
                 projectMemberBean.addProjectMember(projectMemberVO);
             }
         }
-
-        //添加日志
-        LogUtil.operaLog(memberId, OperaType.ADD, LogType.PROJECT, projectVO.getPROJECT_ID(), projectVO.getPROJECT_NAME());
-
         Collection projectMemberColl = new ProjectMemberBean().getProjectMemberColl("select * from project_member where peoject_id = " + projectVO.getPROJECT_ID());
-        try
-
-        {
+        try {
             projectBean.addProject(projectVO);
             return JsonResultUtil.instance().addData(projectVO).addExtraData(new Object[]{projectMemberColl}).json();
-        } catch (
-                DataAccessException e
-                )
+        } catch (DataAccessException e) {
 
-        {
             return JsonResultUtil.instance().
                     addMsg(e.getMessage())
                     .addCode(JsonResultUtil.ERROR).json();
         }
-
     }
 
 
