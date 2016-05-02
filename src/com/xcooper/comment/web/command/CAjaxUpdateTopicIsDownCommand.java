@@ -40,11 +40,11 @@ public class CAjaxUpdateTopicIsDownCommand implements Command {
             if (1 == StrUtil.getNotNullIntValue(request.getParameter("isDown"), 0)) {
                 topicVO.setIS_DONE(1);
                 //设置日志
-                LogUtil.operaLog(memberId, OperaType.COMPLETE, LogType.TOPIC, topicId, topicVO.getTITILE());
+                LogUtil.operaLog(memberId, OperaType.COMPLETE, LogType.TOPIC, topicId, topicVO.getTITLE());
             } else if (1 != StrUtil.getNotNullIntValue(request.getParameter("isDown"), 0)) {
                 topicVO.setIS_DONE(-1);
                 //设置日志
-                LogUtil.operaLog(memberId, OperaType.OPEN, LogType.TOPIC, topicId, topicVO.getTITILE());
+                LogUtil.operaLog(memberId, OperaType.OPEN, LogType.TOPIC, topicId, topicVO.getTITLE());
             }
         }
 

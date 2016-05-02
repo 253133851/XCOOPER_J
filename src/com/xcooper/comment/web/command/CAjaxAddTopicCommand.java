@@ -39,7 +39,7 @@ public class CAjaxAddTopicCommand implements Command {
         int memberId = StrUtil.getNotNullIntValue(request.getParameter("memberId"),0);
 
         //话题名称 title
-        topicVO.setTITILE(request.getParameter("title"));
+        topicVO.setTITLE(request.getParameter("title"));
 
         //话题描述 describes
         topicVO.setDESCRIBES(request.getParameter("describes"));
@@ -47,8 +47,12 @@ public class CAjaxAddTopicCommand implements Command {
         //所属项目id projectId
         topicVO.setPROJECT_ID(StrUtil.getNotNullIntValue(request.getParameter("projectId"),0));
 
+        //创建人id
+
+        topicVO.setCREATE_ID(memberId);
+
         //添加日志
-        LogUtil.operaLog(memberId, OperaType.ADD, LogType.TOPIC,topicVO.getTOPIC_ID(),topicVO.getTITILE());
+        LogUtil.operaLog(memberId, OperaType.ADD, LogType.TOPIC,topicVO.getTOPIC_ID(),topicVO.getTITLE());
 
         try {
             topicBean.addTopic(topicVO);

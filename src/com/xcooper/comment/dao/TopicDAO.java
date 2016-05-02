@@ -40,9 +40,10 @@ public class TopicDAO {
 
             sh.setInsertForInt("TOPIC_ID", VO.getTOPIC_ID());//TOPIC_ID
             sh.setInsertForInt("SERVICE_ID", VO.getSERVICE_ID());//SERVICE_ID
-            sh.setInsertForString("TITILE", VO.getTITILE());//TITILE
+            sh.setInsertForString("TITLE", VO.getTITLE());//TITLE
             sh.setInsertForString("DESCRIBES", VO.getDESCRIBES());//DESCRIBES
-            sh.setInsertForInt("PROJECT_ID", VO.getPROJECT_ID());//DESCRIBES
+            sh.setInsertForInt("PROJECT_ID", VO.getPROJECT_ID());//PROJECT_ID
+            sh.setInsertForInt("CREATE_ID", VO.getCREATE_ID());//CREATE_ID
             sh.setInsertForInt("IS_DONE", VO.getIS_DONE());//IS_DONE
             sh.setInsertForString("REMARK", VO.getREMARK());//REMARK
             sh.setInsertForDatetime("ADD_DATETIME", DateUtil.format(VO.getADD_DATETIME(), "yyyy-MM-dd HH:mm:ss"), true);//ADD_DATETIME
@@ -69,10 +70,11 @@ public class TopicDAO {
             sh.setTable("TOPIC");
 
             sh.setColumnForInt("SERVICE_ID", VO.getSERVICE_ID());//SERVICE_ID
-            sh.setColumnForString("TITILE", VO.getTITILE());//TITILE
+            sh.setColumnForString("TITLE", VO.getTITLE());//TITLE
             sh.setColumnForString("DESCRIBES", VO.getDESCRIBES());//DESCRIBES
             sh.setColumnForInt("IS_DONE", VO.getIS_DONE());//IS_DONE
-            sh.setColumnForInt("PROJECT_ID", VO.getPROJECT_ID());//IS_DONE
+            sh.setColumnForInt("PROJECT_ID", VO.getPROJECT_ID());//PROJECT_ID
+            sh.setColumnForInt("CREATE_ID", VO.getCREATE_ID());//CREATE_ID
             sh.setColumnForString("REMARK", VO.getREMARK());//REMARK
             sh.setColumnForDatetime("ADD_DATETIME", DateUtil.format(VO.getADD_DATETIME(), "yyyy-MM-dd HH:mm:ss"), "yyyy-mm-dd hh24:mi:ss", true);//ADD_DATETIME
             sh.setColumnForDatetime("UPDATE_DATETIME", DateUtil.format(VO.getUPDATE_DATETIME(), "yyyy-MM-dd HH:mm:ss"), "yyyy-mm-dd hh24:mi:ss", true);//UPDATE_DATETIME
@@ -174,13 +176,14 @@ public class TopicDAO {
 
                 VO.setTOPIC_ID(rs.getInt("TOPIC_ID"));    //TOPIC_ID
                 VO.setSERVICE_ID(rs.getInt("SERVICE_ID"));    //SERVICE_ID
-                VO.setTITILE(rs.getString("TITILE"));    //TITILE
+                VO.setTITLE(rs.getString("TITLE"));    //TITLE
                 VO.setDESCRIBES(rs.getString("DESCRIBES"));    //DESCRIBES
                 VO.setIS_DONE(rs.getInt("IS_DONE"));    //IS_DONE
                 VO.setREMARK(rs.getString("REMARK"));    //REMARK
                 VO.setADD_DATETIME(rs.getTimestamp("ADD_DATETIME"));    //ADD_DATETIME
                 VO.setUPDATE_DATETIME(rs.getTimestamp("UPDATE_DATETIME"));    //UPDATE_DATETIME
                 VO.setPROJECT_ID(rs.getInt("PROJECT_ID"));    //UPDATE_DATETIME
+                VO.setCREATE_ID(rs.getInt("CREATE_ID"));    //CREATE_ID
 
                 resultList.add(VO);
             }
@@ -211,6 +214,34 @@ public class TopicDAO {
         sh.setTable("TOPIC");
 
         sh.setWhereForInt("TOPIC_ID", " = ", TOPIC_ID);//TOPIC_ID
+
+        String sql = sh.getSQL(sh.getSelectSQL());
+
+        Collection coll = getTopicColl(sql);
+        Iterator it = coll.iterator();
+        if (it.hasNext()) {
+            return (TopicVO) it.next();
+        }
+
+        return null;
+    }
+
+    /**
+     * 根据CREATE_ID取其VO
+     *
+     * @param CREATE_ID
+     * @throws DataAccessException
+     * @author zdk 2016-04-28 11:33:28
+     */
+    public TopicVO getTopicByCreateID(int CREATE_ID) throws DataAccessException {
+
+        SqlHelper sh = new SqlHelper();
+
+        sh.setSelectColumn("*");
+
+        sh.setTable("TOPIC");
+
+        sh.setWhereForInt("CREATE_ID", " = ", CREATE_ID);//CREATE_ID
 
         String sql = sh.getSQL(sh.getSelectSQL());
 

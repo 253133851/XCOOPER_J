@@ -36,4 +36,23 @@ public class LogUtil {
 
     }
 
+    public static void operaLog(int operaId,String operaType,String logType,int targetId,String opera,String remark1){
+        LogBean logBean = new LogBean();
+        LogVO logVO = new LogVO();
+
+        logVO.setOPERA_ID(operaId);
+        logVO.setOPERA_TYPE(operaType);
+        logVO.setLOG_TYPE(logType);
+        logVO.setTARGET_ID(targetId);
+        logVO.setOPERA(opera);
+        logVO.setREMARK1(remark1);
+
+        try {
+            logBean.addLog(logVO);
+        }catch (DataAccessException e){
+            e.printStackTrace();
+        }
+
+    }
+
 }

@@ -84,4 +84,14 @@ public class TopicBean {
 	public TopicVO getTopicByID(int TOPIC_ID)throws DataAccessException{
 		return dao.getTopicByID(TOPIC_ID);
 	}
+
+	/**
+	 * 根据CREATE_ID 取其VO
+	 * @param CREATE_ID
+	 * @return
+	 * @throws DataAccessException
+     */
+	public TopicVO getTopicByCreateId(int CREATE_ID) throws DataAccessException{
+		return dao.getTopicByCreateID(CREATE_ID);
+	}
 }

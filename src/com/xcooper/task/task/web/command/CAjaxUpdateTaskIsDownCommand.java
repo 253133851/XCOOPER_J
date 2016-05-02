@@ -50,12 +50,12 @@ public class CAjaxUpdateTaskIsDownCommand implements Command {
         if (0 != StrUtil.getNotNullIntValue(request.getParameter("isDel"), 0)) {
             if (1 == StrUtil.getNotNullIntValue(request.getParameter("isDel"), 0)) {
                 taskVO.setIS_DEL(1);
-                //操作日志
+                //完成任务操作日志
                 LogUtil.operaLog(memberId, OperaType.COMPLETE, LogType.TASK, taskVO.getTASK_ID(), taskVO.getTASK_NAME());
 
             } else if (1 != StrUtil.getNotNullIntValue(request.getParameter("isDel"), 0)) {
                 taskVO.setIS_DEL(-1);
-                //操作日志
+                //重新打开任务操作日志
                 LogUtil.operaLog(memberId, OperaType.OPEN, LogType.TASK, taskVO.getTASK_ID(), taskVO.getTASK_NAME());
             }
         }

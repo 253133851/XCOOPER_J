@@ -13,7 +13,11 @@ import com.pabula.fw.utility.VO;
 import com.xcooper.comment.busi.CommentBean;
 import com.xcooper.list.busi.ListBean;
 import com.xcooper.member.merbertask.busi.MemberTaskBean;
+import com.xcooper.sys.log.web.command.LogType;
+import com.xcooper.sys.log.web.command.LogUtil;
+import com.xcooper.sys.log.web.command.OperaType;
 import com.xcooper.task.task.busi.TaskBean;
+import com.xcooper.task.task.vo.TaskVO;
 import com.xcooper.task.taskcheckitem.busi.TaskCheckItemBean;
 
 import javax.servlet.ServletException;
@@ -30,6 +34,8 @@ public class CAjaxDeleteTaskCommand implements Command {
 
         int id = StrUtil.getNotNullIntValue(request.getParameter("id"), 0);
 
+        int memberId = StrUtil.getNotNullIntValue(request.getParameter("memberId"), 0);
+
         TaskBean taskBean = new TaskBean();
 
         //删除检查项记录
@@ -40,6 +46,11 @@ public class CAjaxDeleteTaskCommand implements Command {
 
         //删除讨论记录
         CommentBean commentBean = new CommentBean();
+
+        TaskVO taskVO = taskBean.getTaskByID(id);
+
+        //添加日志
+        LogUtil.operaLog(memberId, OperaType.Delete, LogType.TASK,id,taskVO.getTASK_NAME());
 
         try {
             //删除该id的记录

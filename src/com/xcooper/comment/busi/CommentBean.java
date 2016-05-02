@@ -103,5 +103,4 @@ public class CommentBean {
     public CommentVO getCommentByID(int COMMENT_ID) throws DataAccessException {
         return dao.getCommentByID(COMMENT_ID);
     }
-
 }

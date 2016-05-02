@@ -38,7 +38,7 @@ public class CAjaxDeleteTopicCommand implements Command {
         int memberId = StrUtil.getNotNullIntValue(request.getParameter("memberId"), 0);
         //添加日志
 
-        LogUtil.operaLog(memberId, OperaType.Delete, LogType.TOPIC,topicId,topicVO.getTITILE());
+        LogUtil.operaLog(memberId, OperaType.Delete, LogType.TOPIC,topicId,topicVO.getTITLE());
 
         try {
             topicBean.delTopic(topicId);

@@ -39,7 +39,7 @@ public class CAjaxUpdateTopicCommand implements Command {
 
         //话题名称 title
         if (null != request.getParameter("title") && "" != request.getParameter("title")) {
-            topicVO.setTITILE(request.getParameter("title"));
+            topicVO.setTITLE(request.getParameter("title"));
         }
 
         //话题描述
@@ -48,7 +48,7 @@ public class CAjaxUpdateTopicCommand implements Command {
         }
 
         //添加日志
-        LogUtil.operaLog(memberId, OperaType.EDIT, LogType.TOPIC, topicId, topicVO.getTITILE());
+        LogUtil.operaLog(memberId, OperaType.EDIT, LogType.TOPIC, topicId, topicVO.getTITLE());
 
         try {
             topicBean.modifyTopic(topicVO);

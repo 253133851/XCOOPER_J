@@ -82,6 +82,10 @@ public class CAjaxAddProjectCommand implements Command {
                 projectMemberBean.addProjectMember(projectMemberVO);
             }
         }
+
+        //添加日志
+        LogUtil.operaLog(memberId,OperaType.ADD,LogType.PROJECT,projectVO.getPROJECT_ID(),projectVO.getPROJECT_NAME());
+
         Collection projectMemberColl = new ProjectMemberBean().getProjectMemberColl("select * from project_member where peoject_id = " + projectVO.getPROJECT_ID());
         try {
             projectBean.addProject(projectVO);

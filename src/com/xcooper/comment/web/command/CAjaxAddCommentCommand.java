@@ -9,8 +9,15 @@ import com.pabula.fw.utility.Command;
 import com.pabula.fw.utility.RequestHelper;
 import com.pabula.fw.utility.VO;
 import com.xcooper.comment.busi.CommentBean;
+import com.xcooper.comment.busi.TopicBean;
 import com.xcooper.comment.vo.CommentVO;
+import com.xcooper.comment.vo.TopicVO;
 import com.xcooper.list.busi.ListBean;
+import com.xcooper.sys.log.web.command.LogType;
+import com.xcooper.sys.log.web.command.LogUtil;
+import com.xcooper.sys.log.web.command.OperaType;
+import com.xcooper.task.task.busi.TaskBean;
+import com.xcooper.task.task.vo.TaskVO;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,14 +36,20 @@ public class CAjaxAddCommentCommand implements Command {
 
         CommentVO commentVO = new CommentVO();
 
+        TaskBean taskBean = new TaskBean();
+
+        TopicBean topicBean = new TopicBean();
+
         //SeqNumHelper.getNewSeqNum("xxxx")  向VO中插入"comment"表中可用的id
         commentVO.setCOMMENT_ID(SeqNumHelper.getNewSeqNum("comment"));
 
         //插入任务/话题id aimId
-        commentVO.setAIM_ID(StrUtil.getNotNullIntValue(request.getParameter("aimId"), 0));
+        int aimId = StrUtil.getNotNullIntValue(request.getParameter("aimId"), 0);
+        commentVO.setAIM_ID(aimId);
 
         //评论人id commentMemberId
-        commentVO.setCOMMENT_MEMBER_ID(StrUtil.getNotNullIntValue(request.getParameter("commentMemberId"), 0));
+        int commentMemberId = StrUtil.getNotNullIntValue(request.getParameter("commentMemberId"), 0);
+        commentVO.setCOMMENT_MEMBER_ID(commentMemberId);
 
         //讨论标题 commentTitle
         //request.getParameter("xxx")  插入字符串
@@ -47,7 +60,8 @@ public class CAjaxAddCommentCommand implements Command {
         commentVO.setCOMMENT(request.getParameter("comment"));
 
         //类型 type  任务讨论:1   话题讨论:2
-        commentVO.setTYPE(StrUtil.getNotNullIntValue(request.getParameter("type"), 0));
+        int type = StrUtil.getNotNullIntValue(request.getParameter("type"), 0);
+        commentVO.setTYPE(type);
 
         //通知目标 targetId
         commentVO.setTARGET_ID(request.getParameter("targetId"));
@@ -61,6 +75,17 @@ public class CAjaxAddCommentCommand implements Command {
         //排序值 orderNum
         commentVO.setORDER_NUM(StrUtil.getNotNullIntValue(request.getParameter("orderNum"), 0));
 
+        if (0 != type) {
+            if (type == 1) {
+                TaskVO taskVO = taskBean.getTaskByID(aimId);
+                //添加任务评论日志
+                LogUtil.operaLog(commentMemberId, OperaType.REPLY, LogType.TASK, aimId, taskVO.getTASK_NAME(), commentVO.getCOMMENT());
+            } else if (type == 2) {
+                //添加话题评论日志
+                TopicVO topicVO = topicBean.getTopicByID(aimId);
+                LogUtil.operaLog(commentMemberId, OperaType.REPLY, LogType.TOPIC, aimId, topicVO.getTITLE(), commentVO.getCOMMENT());
+            }
+        }
         try {
             commentBean.addComment(commentVO);
             return JsonResultUtil.instance().addData(commentVO.getCOMMENT_ID()).addCode(JsonResultUtil.OK).addMsg("添加成功").json();

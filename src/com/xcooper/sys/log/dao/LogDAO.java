@@ -179,8 +179,8 @@ public class LogDAO {
 				VO.setTARGET_ID(rs.getInt("TARGET_ID")); 	//操作目标id
 				VO.setTARGET(rs.getString("TARGET")); 	//操作目标
 				VO.setOPERA(rs.getString("OPERA")); 	//操作内容
-				VO.setOPERA(rs.getString("OPERA_TYPE")); 	//操作类型
-				VO.setOPERA(rs.getString("LOG_TYPE")); 	//日志类型
+				VO.setOPERA_TYPE(rs.getString("OPERA_TYPE")); 	//操作类型
+				VO.setLOG_TYPE(rs.getString("LOG_TYPE")); 	//日志类型
 				VO.setREMARK1(rs.getString("REMARK1")); 	//REMARK1
 				VO.setREMARK2(rs.getString("REMARK2")); 	//REMARK2
 				VO.setREMARK3(rs.getString("REMARK3")); 	//REMARK3
