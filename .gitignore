@@ -50,3 +50,4 @@ Temporary Items
 *.class
 
 
+out/artifacts/XCOOPER_J_war_exploded/WEB-INF/classes/com/xcooper/project/project/web/command/CAjaxAddProjectCommand.class
